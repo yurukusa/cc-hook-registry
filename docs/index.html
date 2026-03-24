@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">101 hooks. Search, browse, install.</p>
+<p class="sub">104 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -160,6 +160,9 @@ const H=[
 {id:'auto-checkpoint',n:'Auto Checkpoint',c:'utility',d:'Auto-commit after edits for rollback',i:'npx cc-safe-setup --install-example auto-checkpoint',t:['checkpoint','rollback','git']},
 {id:'binary-file-guard',n:'Binary File Guard',c:'quality',d:'Warn when Write targets binary file types',i:'npx cc-safe-setup --install-example binary-file-guard',t:['binary','write','image']},
 {id:'changelog-reminder',n:'Changelog Reminder',c:'quality',d:'Remind to update CHANGELOG on version bump',i:'npx cc-safe-setup --install-example changelog-reminder',t:['changelog','version','docs']},
+{id:'no-hardlink',n:'No Hard Link',c:'quality',d:'Warn on hard link creation',i:'npx cc-safe-setup --install-example no-hardlink',t:['link','hardlink','ln']},
+{id:'migration-safety',n:'Migration Safety',c:'safety',d:'Require backup before DB migrations',i:'npx cc-safe-setup --install-example migration-safety',t:['migrate','database','backup']},
+{id:'max-edit-size-guard',n:'Max Edit Size Guard',c:'quality',d:'Warn on very large single edits (50+ lines)',i:'npx cc-safe-setup --install-example max-edit-size-guard',t:['edit','large','refactor']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
