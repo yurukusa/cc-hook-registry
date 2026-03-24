@@ -113,6 +113,7 @@ if (!command || command === '--help' || command === '-h') {
     install <id>         Install a hook
     info <id>            Show hook details
     recommend            Recommend hooks for current project
+    update [id]          Update one or all installed hooks
     uninstall <id>       Remove an installed hook
     outdated             Check installed hooks for updates
     stats                Registry statistics
@@ -365,6 +366,59 @@ else if (command === 'recommend') {
     console.log(c.green + '  All recommended hooks are installed!' + c.reset);
   } else {
     console.log(c.dim + '  ' + notInstalled.length + ' recommended hook(s) not yet installed.' + c.reset);
+  }
+  console.log();
+}
+
+else if (command === 'update') {
+  const targetId = args[1]; // Optional: update specific hook or all
+  console.log();
+  console.log(c.bold + '  Updating hooks...' + c.reset);
+  console.log();
+
+  if (!existsSync(HOOKS_DIR)) {
+    console.log(c.dim + '  No hooks installed.' + c.reset);
+    process.exit(0);
+  }
+
+  const { readdirSync } = await import('fs');
+  const installed = readdirSync(HOOKS_DIR).filter(f => f.endsWith('.sh'));
+  let updated = 0;
+  let skipped = 0;
+
+  for (const file of installed) {
+    const name = file.replace('.sh', '');
+    if (targetId && name !== targetId) continue;
+
+    const hook = REGISTRY.find(h => h.id === name);
+    if (!hook || !hook.install.includes('--install-example')) {
+      skipped++;
+      continue;
+    }
+
+    const rawUrl = `https://raw.githubusercontent.com/yurukusa/cc-safe-setup/main/examples/${name}.sh`;
+    try {
+      const remote = execSync(`curl -sL "${rawUrl}" 2>/dev/null`, { encoding: 'utf-8', timeout: 5000 });
+      const local = readFileSync(join(HOOKS_DIR, file), 'utf-8');
+
+      if (remote.trim() !== local.trim() && remote.startsWith('#!/bin/bash')) {
+        writeFileSync(join(HOOKS_DIR, file), remote);
+        chmodSync(join(HOOKS_DIR, file), 0o755);
+        console.log('  ' + c.green + '↑' + c.reset + ' Updated: ' + name);
+        updated++;
+      } else {
+        skipped++;
+      }
+    } catch {
+      skipped++;
+    }
+  }
+
+  if (updated === 0) {
+    console.log(c.green + '  All hooks are up to date.' + c.reset);
+  } else {
+    console.log();
+    console.log(c.green + '  Updated ' + updated + ' hook(s).' + c.reset + ' Restart Claude Code.');
   }
   console.log();
 }

@@ -1,6 +1,6 @@
 {
   "name": "cc-hook-registry",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "description": "Search, browse, and install Claude Code hooks from the community. GitHub-based registry, no server needed.",
   "main": "index.mjs",
   "bin": {
@@ -15,7 +15,7 @@
     "cli"
   ],
   "scripts": {
-    "test": "node index.mjs --help"
+    "test": "bash test.sh"
   },
   "author": "yurukusa",
   "license": "MIT",
