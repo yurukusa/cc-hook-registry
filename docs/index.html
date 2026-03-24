@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">210 hooks. Search, browse, install.</p>
+<p class="sub">215 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -269,6 +269,11 @@ const H=[
 {id:'no-unreachable-code',n:'Unreachable Code',c:'quality',d:'Code after return',i:'npx cc-safe-setup --install-example no-unreachable-code',t:['unreachable','dead']},
 {id:'no-throw-string',n:'No Throw String',c:'quality',d:'Warn on throwing strings',i:'npx cc-safe-setup --install-example no-throw-string',t:['throw','error']},
 {id:'check-error-class',n:'Error Class',c:'quality',d:'Warn on non-Error throws',i:'npx cc-safe-setup --install-example check-error-class',t:['error','throw']},
+{id:'check-image-optimization',n:'Image Optimization',c:'quality',d:'Warn on unoptimized images',i:'npx cc-safe-setup --install-example check-image-optimization',t:['image','optimize']},
+{id:'no-document-cookie',n:'No document.cookie',c:'security',d:'Warn on direct cookie access',i:'npx cc-safe-setup --install-example no-document-cookie',t:['cookie','document']},
+{id:'check-meta-description',n:'Meta Description',c:'quality',d:'Warn on missing meta description',i:'npx cc-safe-setup --install-example check-meta-description',t:['meta','seo']},
+{id:'no-inline-event-handler',n:'No Inline Handler',c:'quality',d:'Warn on onclick= in HTML',i:'npx cc-safe-setup --install-example no-inline-event-handler',t:['onclick','html']},
+{id:'check-content-type',n:'Content-Type Check',c:'security',d:'Warn on missing Content-Type',i:'npx cc-safe-setup --install-example check-content-type',t:['content-type','headers']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
