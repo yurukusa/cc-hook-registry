@@ -5,6 +5,8 @@
 
 **Hook package manager for Claude Code.** Search, install, update, and manage 48 hooks from 7 projects.
 
+**[Browse hooks in your browser](https://yurukusa.github.io/cc-hook-registry/)** — no install needed.
+
 ```bash
 npx cc-hook-registry search database
 ```
