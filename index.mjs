@@ -113,6 +113,7 @@ if (!command || command === '--help' || command === '-h') {
     install <id>         Install a hook
     info <id>            Show hook details
     recommend            Recommend hooks for current project
+    uninstall <id>       Remove an installed hook
     outdated             Check installed hooks for updates
     stats                Registry statistics
 
@@ -365,6 +366,42 @@ else if (command === 'recommend') {
   } else {
     console.log(c.dim + '  ' + notInstalled.length + ' recommended hook(s) not yet installed.' + c.reset);
   }
+  console.log();
+}
+
+else if (command === 'uninstall') {
+  const id = args[1];
+  if (!id) { console.log(c.red + '  Usage: cc-hook-registry uninstall <id>' + c.reset); process.exit(1); }
+
+  const hookPath = join(HOOKS_DIR, id + '.sh');
+  console.log();
+
+  if (!existsSync(hookPath)) {
+    console.log(c.red + '  Hook not installed: ' + id + c.reset);
+    process.exit(1);
+  }
+
+  // Remove script
+  const { unlinkSync } = await import('fs');
+  unlinkSync(hookPath);
+  console.log(c.green + '  ✓ Removed: ' + hookPath + c.reset);
+
+  // Remove from settings.json
+  if (existsSync(SETTINGS_PATH)) {
+    try {
+      const settings = JSON.parse(readFileSync(SETTINGS_PATH, 'utf-8'));
+      for (const trigger of Object.keys(settings.hooks || {})) {
+        settings.hooks[trigger] = settings.hooks[trigger].filter(entry =>
+          !(entry.hooks || []).some(h => (h.command || '').includes(id))
+        );
+        if (settings.hooks[trigger].length === 0) delete settings.hooks[trigger];
+      }
+      writeFileSync(SETTINGS_PATH, JSON.stringify(settings, null, 2));
+      console.log(c.green + '  ✓ Removed from settings.json' + c.reset);
+    } catch {}
+  }
+
+  console.log(c.dim + '  Restart Claude Code to take effect.' + c.reset);
   console.log();
 }
 
