@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">110 hooks. Search, browse, install.</p>
+<p class="sub">115 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -169,6 +169,11 @@ const H=[
 {id:'worktree-cleanup-guard',n:'Worktree Cleanup Guard',c:'safety',d:'Warn on unmerged worktree commits',i:'npx cc-safe-setup --install-example worktree-cleanup-guard',t:['worktree','git','cleanup']},
 {id:'protect-commands-dir',n:'Protect Commands Dir',c:'safety',d:'Backup .claude/commands/ on session start',i:'npx cc-safe-setup --install-example protect-commands-dir',t:['commands','session','backup']},
 {id:'no-root-write',n:'No Root Write',c:'safety',d:'Block writes to /etc, /usr, /bin',i:'npx cc-safe-setup --install-example no-root-write',t:['root','system','write']},
+{id:'session-budget-alert',n:'Session Budget Alert',c:'utility',d:'Show session cost on start',i:'npx cc-safe-setup --install-example session-budget-alert',t:['cost','budget','session']},
+{id:'auto-push-worktree',n:'Auto Push Worktree',c:'utility',d:'Auto-push worktree branches on end',i:'npx cc-safe-setup --install-example auto-push-worktree',t:['worktree','push','auto']},
+{id:'no-network-exfil',n:'No Network Exfil',c:'security',d:'Block data upload to unknown hosts',i:'npx cc-safe-setup --install-example no-network-exfil',t:['curl','upload','exfiltration']},
+{id:'gitignore-check',n:'Gitignore Check',c:'quality',d:'Warn if .gitignore missing',i:'npx cc-safe-setup --install-example gitignore-check',t:['gitignore','git','check']},
+{id:'package-json-guard',n:'Package JSON Guard',c:'safety',d:'Block deleting package.json',i:'npx cc-safe-setup --install-example package-json-guard',t:['package','npm','delete']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
