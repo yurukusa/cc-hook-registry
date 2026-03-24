@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hook Playground — Claude Code Hook Registry</title>
+<meta name="description" content="Test which Claude Code hooks would fire on any command. Interactive safety checker.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#c9d1d9;min-height:100vh;padding:1.5rem}
+.c{max-width:860px;margin:0 auto}
+h1{font-size:1.4rem;color:#f0f6fc;margin-bottom:.2rem}
+.sub{color:#8b949e;font-size:.85rem;margin-bottom:1.2rem}
+a{color:#58a6ff;text-decoration:none}
+
+.input-wrap{position:relative;margin-bottom:1rem}
+#cmd{width:100%;padding:.7rem .7rem .7rem 2rem;background:#161b22;border:1px solid #30363d;border-radius:8px;color:#f0f6fc;font-family:'SF Mono',Monaco,monospace;font-size:.95rem}
+#cmd:focus{outline:none;border-color:#58a6ff;box-shadow:0 0 0 3px #58a6ff22}
+#cmd::placeholder{color:#484f58}
+.prompt{position:absolute;left:.7rem;top:.75rem;color:#484f58;font-family:monospace;font-size:.95rem;pointer-events:none}
+
+.score-bar{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:.8rem 1rem;margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
+.score-num{font-size:1.8rem;font-weight:700;min-width:3.5rem;text-align:center}
+.score-label{font-size:.75rem;color:#8b949e}
+.score-meter{flex:1;height:8px;background:#21262d;border-radius:4px;overflow:hidden}
+.score-fill{height:100%;border-radius:4px;transition:width .3s,background .3s}
+.verdict{font-size:.85rem;font-weight:600;min-width:90px;text-align:right}
+
+.results{display:grid;gap:.5rem}
+.result{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:.65rem .85rem;display:flex;align-items:center;gap:.7rem;transition:border-color .2s}
+.result.block{border-left:3px solid #f85149}
+.result.warn{border-left:3px solid #d29922}
+.result.pass{border-left:3px solid #3fb950}
+.result.inactive{border-left:3px solid #30363d;opacity:.5}
+.r-icon{font-size:1.1rem;min-width:1.5rem;text-align:center}
+.r-name{font-weight:600;font-size:.85rem;color:#f0f6fc;min-width:140px}
+.r-action{font-size:.7rem;font-weight:bold;padding:.15rem .4rem;border-radius:3px;min-width:55px;text-align:center}
+.r-action.block{background:#da363322;color:#f85149}
+.r-action.warn{background:#d2992222;color:#d29922}
+.r-action.pass{background:#23863622;color:#3fb950}
+.r-action.inactive{background:#21262d;color:#484f58}
+.r-reason{font-size:.78rem;color:#8b949e;flex:1}
+.r-install{font-family:monospace;font-size:.7rem;color:#58a6ff;cursor:pointer}
+.r-install:hover{text-decoration:underline}
+
+.examples{margin-top:1.5rem}
+.examples h2{font-size:.9rem;color:#8b949e;margin-bottom:.5rem}
+.ex-grid{display:flex;flex-wrap:wrap;gap:.3rem}
+.ex{padding:.25rem .5rem;background:#161b22;border:1px solid #30363d;border-radius:4px;font-family:monospace;font-size:.75rem;color:#c9d1d9;cursor:pointer;transition:border-color .15s}
+.ex:hover{border-color:#58a6ff;color:#58a6ff}
+
+.nav{display:flex;gap:.5rem;margin-bottom:1rem;font-size:.8rem}
+.footer{text-align:center;color:#484f58;font-size:.7rem;margin-top:2rem}
+
+.empty{text-align:center;padding:2rem;color:#484f58;font-size:.85rem}
+.tip{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:.6rem .8rem;margin-bottom:1rem;font-size:.78rem;color:#8b949e}
+.tip code{background:#21262d;padding:.1rem .3rem;border-radius:3px;color:#c9d1d9}
+</style>
+</head>
+<body>
+<div class="c">
+
+<div class="nav">
+  <a href="index.html">Registry</a> · <b style="color:#f0f6fc">Playground</b>
+</div>
+
+<h1>Hook Playground</h1>
+<p class="sub">Type any command — see which hooks would fire in real time</p>
+
+<div class="input-wrap">
+  <span class="prompt">$</span>
+  <input id="cmd" placeholder="rm -rf /" autofocus oninput="analyze()">
+</div>
+
+<div class="score-bar" id="scorebar" style="display:none">
+  <div>
+    <div class="score-num" id="score">100</div>
+    <div class="score-label">Safety Score</div>
+  </div>
+  <div class="score-meter"><div class="score-fill" id="scorefill"></div></div>
+  <div class="verdict" id="verdict"></div>
+</div>
+
+<div class="results" id="results"></div>
+
+<div class="examples">
+  <h2>Try these commands</h2>
+  <div class="ex-grid" id="examples"></div>
+</div>
+
+<div class="tip" style="margin-top:1rem">
+  <strong style="color:#f0f6fc">How it works:</strong> This playground simulates the detection patterns from
+  <a href="https://www.npmjs.com/package/cc-safe-setup">cc-safe-setup</a>'s 71 hooks. Results show what would happen
+  if all hooks were installed. Install only the ones you need: <code>npx cc-safe-setup</code>
+</div>
+
+<div class="footer">
+  <a href="https://github.com/yurukusa/cc-hook-registry">GitHub</a> ·
+  <a href="https://www.npmjs.com/package/cc-hook-registry">npm</a> ·
+  <a href="https://yurukusa.github.io/cc-safe-setup/">Safety Audit</a>
+</div>
+</div>
+
+<script>
+const HOOKS = [
+  // === Safety Guards ===
+  {
+    id: 'destructive-guard', name: 'Destructive Guard', cat: 'safety',
+    install: 'npx cc-safe-setup',
+    test(cmd) {
+      if (/\brm\s+(-[a-zA-Z]*r[a-zA-Z]*\s+(-[a-zA-Z]*f[a-zA-Z]*\s+)?|--recursive\s+)/i.test(cmd)) {
+        if (/\s+\/\s*$|\s+\/[a-z]|\s+~\/?\s*$|\s+\.\s*$|\s+\$HOME/i.test(cmd))
+          return { action: 'block', reason: 'Destructive rm targeting critical path' };
+        if (/\s+\.\.\//i.test(cmd))
+          return { action: 'block', reason: 'rm -rf with parent directory escape' };
+        return { action: 'warn', reason: 'Recursive delete detected — check target carefully' };
+      }
+      if (/\bgit\s+reset\s+--hard/i.test(cmd))
+        return { action: 'block', reason: 'git reset --hard destroys uncommitted changes' };
+      if (/\bgit\s+clean\s+(-[a-zA-Z]*f|-[a-zA-Z]*d)/i.test(cmd))
+        return { action: 'block', reason: 'git clean removes untracked files permanently' };
+      if (/Remove-Item.*-Recurse.*-Force|rd\s+\/s\s+\/q|del\s+\/s\s+\/q/i.test(cmd))
+        return { action: 'block', reason: 'PowerShell/cmd destructive command' };
+      if (/\bsudo\s+mkfs\b/i.test(cmd))
+        return { action: 'block', reason: 'Filesystem format command' };
+      if (/--no-preserve-root/i.test(cmd))
+        return { action: 'block', reason: '--no-preserve-root bypasses safety' };
+      return null;
+    }
+  },
+  {
+    id: 'branch-guard', name: 'Branch Guard', cat: 'safety',
+    install: 'npx cc-safe-setup',
+    test(cmd) {
+      if (/\bgit\s+push\b.*\b(main|master)\b/i.test(cmd))
+        return { action: 'block', reason: 'Direct push to main/master branch' };
+      if (/\bgit\s+push\s+.*--force\b/i.test(cmd))
+        return { action: 'block', reason: 'Force push can overwrite remote history' };
+      if (/\bgit\s+push\s+.*-f\b/i.test(cmd))
+        return { action: 'block', reason: 'Force push (-f shorthand)' };
+      return null;
+    }
+  },
+  {
+    id: 'secret-guard', name: 'Secret Guard', cat: 'safety',
+    install: 'npx cc-safe-setup',
+    test(cmd) {
+      if (/\bgit\s+add\s+.*\.env\b/i.test(cmd))
+        return { action: 'block', reason: 'Adding .env file to git exposes secrets' };
+      if (/\bgit\s+add\s+.*\.(pem|key|p12|pfx|jks)\b/i.test(cmd))
+        return { action: 'block', reason: 'Adding credential/key file to git' };
+      if (/\bgit\s+add\s+[\.\-]A?\s*$/i.test(cmd) || /\bgit\s+add\s+(-A|--all|\.)(\s|$)/i.test(cmd))
+        return { action: 'warn', reason: 'git add all — may include secret files' };
+      if (/\bgit\s+add\s+.*credentials/i.test(cmd))
+        return { action: 'block', reason: 'Adding credentials file to git' };
+      if (/\bgit\s+add\s+.*id_rsa/i.test(cmd))
+        return { action: 'block', reason: 'Adding SSH private key to git' };
+      return null;
+    }
+  },
+  {
+    id: 'block-database-wipe', name: 'Database Wipe Guard', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example block-database-wipe',
+    test(cmd) {
+      if (/\bDROP\s+(DATABASE|TABLE|SCHEMA)\b/i.test(cmd))
+        return { action: 'block', reason: 'SQL DROP destroys data permanently' };
+      if (/\bmigrate:fresh\b|\bmigrate:reset\b/i.test(cmd))
+        return { action: 'block', reason: 'Laravel migrate:fresh/reset wipes all tables' };
+      if (/\bprisma\s+(migrate\s+)?reset\b/i.test(cmd))
+        return { action: 'block', reason: 'Prisma reset drops and recreates database' };
+      if (/\brails\s+db:drop\b|\brake\s+db:drop\b/i.test(cmd))
+        return { action: 'block', reason: 'Rails db:drop destroys database' };
+      if (/\bdjango.*flush\b|\bmanage\.py\s+flush\b/i.test(cmd))
+        return { action: 'block', reason: 'Django flush deletes all data' };
+      if (/\bTRUNCATE\b/i.test(cmd))
+        return { action: 'block', reason: 'TRUNCATE removes all rows' };
+      return null;
+    }
+  },
+  {
+    id: 'deploy-guard', name: 'Deploy Guard', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example deploy-guard',
+    test(cmd) {
+      const deployTools = /\b(vercel|netlify|firebase|fly|heroku|rsync|scp)\s+(deploy|push)\b/i;
+      if (deployTools.test(cmd))
+        return { action: 'warn', reason: 'Deploy command — ensure changes are committed first' };
+      if (/\bgit\s+push\s+.*heroku\b/i.test(cmd))
+        return { action: 'warn', reason: 'Heroku deploy via git push' };
+      return null;
+    }
+  },
+  {
+    id: 'scope-guard', name: 'Scope Guard', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example scope-guard',
+    test(cmd) {
+      if (/\b(cat|rm|mv|cp|chmod|chown)\s+\/(?!tmp|dev\/null)/i.test(cmd))
+        return { action: 'warn', reason: 'Absolute path outside project — potential scope escape' };
+      if (/~\//i.test(cmd) && /\b(rm|mv|chmod)\b/i.test(cmd))
+        return { action: 'warn', reason: 'Operating on home directory files' };
+      if (/\.\.\//g.test(cmd) && (cmd.match(/\.\.\//g)||[]).length >= 2)
+        return { action: 'block', reason: 'Multiple parent directory traversals' };
+      return null;
+    }
+  },
+  {
+    id: 'protect-dotfiles', name: 'Dotfile Protector', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example protect-dotfiles',
+    test(cmd) {
+      if (/~\/\.(bashrc|zshrc|profile|bash_profile)\b/i.test(cmd))
+        return { action: 'block', reason: 'Modifying shell config file' };
+      if (/~\/\.aws\//i.test(cmd))
+        return { action: 'block', reason: 'Accessing AWS credentials directory' };
+      if (/~\/\.ssh\//i.test(cmd))
+        return { action: 'block', reason: 'Accessing SSH key directory' };
+      if (/~\/\.gnupg\//i.test(cmd))
+        return { action: 'block', reason: 'Accessing GPG key directory' };
+      return null;
+    }
+  },
+  {
+    id: 'no-sudo-guard', name: 'No Sudo', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example no-sudo-guard',
+    test(cmd) {
+      if (/^\s*sudo\b/i.test(cmd) || /&&\s*sudo\b/i.test(cmd) || /;\s*sudo\b/i.test(cmd))
+        return { action: 'block', reason: 'sudo escalates privileges — use with caution' };
+      return null;
+    }
+  },
+  {
+    id: 'no-install-global', name: 'No Global Install', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example no-install-global',
+    test(cmd) {
+      if (/\bnpm\s+install\s+(-g|--global)\b/i.test(cmd))
+        return { action: 'block', reason: 'Global npm install modifies system' };
+      if (/\bpip\s+install\b/i.test(cmd) && !/\bvenv\b|\.venv\b|-m\s+pip/i.test(cmd))
+        return { action: 'warn', reason: 'pip install without venv — may be system-wide' };
+      return null;
+    }
+  },
+  {
+    id: 'symlink-guard', name: 'Symlink Guard', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example symlink-guard',
+    test(cmd) {
+      if (/\brm\b.*-[a-zA-Z]*r/i.test(cmd) && /\bln\b|\bsymlink\b|\bjunction\b/i.test(cmd))
+        return { action: 'warn', reason: 'rm -r on symlinked target may traverse' };
+      return null;
+    }
+  },
+  {
+    id: 'env-source-guard', name: 'Env Source Guard', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example env-source-guard',
+    test(cmd) {
+      if (/\b(source|\.)\s+.*\.env\b/i.test(cmd))
+        return { action: 'block', reason: 'Sourcing .env executes it as shell script' };
+      return null;
+    }
+  },
+  {
+    id: 'protect-claudemd', name: 'Protect CLAUDE.md', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example protect-claudemd',
+    test(cmd) {
+      if (/CLAUDE\.md/i.test(cmd) && /\b(rm|mv|sed|echo\s+>)\b/i.test(cmd))
+        return { action: 'block', reason: 'Modifying CLAUDE.md changes AI behavior rules' };
+      if (/settings\.json/i.test(cmd) && /\.claude/i.test(cmd))
+        return { action: 'warn', reason: 'Modifying Claude Code settings' };
+      return null;
+    }
+  },
+  {
+    id: 'git-tag-guard', name: 'Git Tag Guard', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example git-tag-guard',
+    test(cmd) {
+      if (/\bgit\s+tag\s+-d\b/i.test(cmd))
+        return { action: 'block', reason: 'Deleting git tags' };
+      if (/\bgit\s+push\s+.*--delete\s+.*tag/i.test(cmd))
+        return { action: 'block', reason: 'Deleting remote tags' };
+      return null;
+    }
+  },
+  {
+    id: 'npm-publish-guard', name: 'npm Publish Guard', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example npm-publish-guard',
+    test(cmd) {
+      if (/\bnpm\s+publish\b/i.test(cmd))
+        return { action: 'warn', reason: 'npm publish is irreversible — verify version and contents' };
+      return null;
+    }
+  },
+  {
+    id: 'no-deploy-friday', name: 'No Deploy Friday', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example no-deploy-friday',
+    test(cmd) {
+      const isFriday = new Date().getDay() === 5;
+      if (isFriday && /\b(deploy|publish|release)\b/i.test(cmd))
+        return { action: 'block', reason: 'No deploys on Friday — wait until Monday' };
+      return null;
+    }
+  },
+  {
+    id: 'dependency-audit', name: 'Dependency Audit', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example dependency-audit',
+    test(cmd) {
+      if (/\bnpm\s+install\s+\w/i.test(cmd) && !/\b(--save-dev|-D)\b/i.test(cmd))
+        return { action: 'warn', reason: 'New production dependency — verify package trustworthiness' };
+      if (/\bpip\s+install\s+\w/i.test(cmd))
+        return { action: 'warn', reason: 'New Python dependency — check package reputation' };
+      return null;
+    }
+  },
+  // === Quality Hooks ===
+  {
+    id: 'diff-size-guard', name: 'Diff Size Guard', cat: 'quality',
+    install: 'npx cc-safe-setup --install-example diff-size-guard',
+    test(cmd) {
+      if (/\bgit\s+commit\b/i.test(cmd))
+        return { action: 'warn', reason: 'Check diff size before committing (10+ files = review)' };
+      return null;
+    }
+  },
+  {
+    id: 'commit-quality-gate', name: 'Commit Quality', cat: 'quality',
+    install: 'npx cc-safe-setup --install-example commit-quality-gate',
+    test(cmd) {
+      if (/\bgit\s+commit\s+-m\s+["']?(fix|update|change|wip|tmp)["']?\s*$/i.test(cmd))
+        return { action: 'warn', reason: 'Vague commit message — be more descriptive' };
+      return null;
+    }
+  },
+  {
+    id: 'syntax-check', name: 'Syntax Check', cat: 'quality',
+    install: 'npx cc-safe-setup',
+    test(cmd) { return null; /* PostToolUse — checks after edits */ }
+  },
+  // === Auto-Approve ===
+  {
+    id: 'auto-approve-build', name: 'Auto-Approve Build', cat: 'approve',
+    install: 'npx cc-safe-setup --install-example auto-approve-build',
+    test(cmd) {
+      if (/\bnpm\s+(test|run\s+(build|lint|format|check))\b/i.test(cmd))
+        return { action: 'pass', reason: 'Safe build/test command — auto-approved' };
+      if (/\bcargo\s+(build|test|check|clippy)\b/i.test(cmd))
+        return { action: 'pass', reason: 'Safe Cargo command — auto-approved' };
+      if (/\bgo\s+(build|test|vet|fmt)\b/i.test(cmd))
+        return { action: 'pass', reason: 'Safe Go command — auto-approved' };
+      return null;
+    }
+  },
+  {
+    id: 'auto-approve-python', name: 'Auto-Approve Python', cat: 'approve',
+    install: 'npx cc-safe-setup --install-example auto-approve-python',
+    test(cmd) {
+      if (/\b(pytest|mypy|ruff|black|isort|flake8|pylint)\b/i.test(cmd))
+        return { action: 'pass', reason: 'Safe Python tool — auto-approved' };
+      return null;
+    }
+  },
+  {
+    id: 'auto-approve-docker', name: 'Auto-Approve Docker', cat: 'approve',
+    install: 'npx cc-safe-setup --install-example auto-approve-docker',
+    test(cmd) {
+      if (/\bdocker\s+(build|compose|ps|logs|images)\b/i.test(cmd))
+        return { action: 'pass', reason: 'Safe Docker command — auto-approved' };
+      if (/\bdocker\s+(rm|rmi|system\s+prune)\b/i.test(cmd))
+        return { action: 'warn', reason: 'Docker cleanup command — verify targets' };
+      return null;
+    }
+  },
+  {
+    id: 'auto-approve-go', name: 'Auto-Approve Go', cat: 'approve',
+    install: 'npx cc-safe-setup --install-example auto-approve-go',
+    test(cmd) {
+      if (/\bgo\s+(build|test|vet|fmt|mod\s+tidy)\b/i.test(cmd))
+        return { action: 'pass', reason: 'Safe Go command — auto-approved' };
+      return null;
+    }
+  },
+  {
+    id: 'auto-approve-cargo', name: 'Auto-Approve Cargo', cat: 'approve',
+    install: 'npx cc-safe-setup --install-example auto-approve-cargo',
+    test(cmd) {
+      if (/\bcargo\s+(build|test|check|clippy|fmt)\b/i.test(cmd))
+        return { action: 'pass', reason: 'Safe Cargo command — auto-approved' };
+      return null;
+    }
+  },
+  {
+    id: 'auto-approve-make', name: 'Auto-Approve Make', cat: 'approve',
+    install: 'npx cc-safe-setup --install-example auto-approve-make',
+    test(cmd) {
+      if (/\bmake\s*(build|test|lint|check|all)?\s*$/i.test(cmd))
+        return { action: 'pass', reason: 'Safe make target — auto-approved' };
+      return null;
+    }
+  },
+  {
+    id: 'auto-approve-gradle', name: 'Auto-Approve Gradle', cat: 'approve',
+    install: 'npx cc-safe-setup --install-example auto-approve-gradle',
+    test(cmd) {
+      if (/\b(gradle|gradlew|\.\/gradlew)\s+(build|test|check)\b/i.test(cmd))
+        return { action: 'pass', reason: 'Safe Gradle command — auto-approved' };
+      return null;
+    }
+  },
+  {
+    id: 'auto-approve-maven', name: 'Auto-Approve Maven', cat: 'approve',
+    install: 'npx cc-safe-setup --install-example auto-approve-maven',
+    test(cmd) {
+      if (/\bmvn\s+(compile|test|verify|package)\b/i.test(cmd))
+        return { action: 'pass', reason: 'Safe Maven command — auto-approved' };
+      return null;
+    }
+  },
+  // === Utility ===
+  {
+    id: 'context-monitor', name: 'Context Monitor', cat: 'utility',
+    install: 'npx cc-safe-setup',
+    test(cmd) { return null; /* Monitors context %, not commands */ }
+  },
+  {
+    id: 'loop-detector', name: 'Loop Detector', cat: 'utility',
+    install: 'npx cc-safe-setup --install-example loop-detector',
+    test(cmd) { return null; /* Detects repetition patterns, not single commands */ }
+  },
+  {
+    id: 'cost-tracker', name: 'Cost Tracker', cat: 'utility',
+    install: 'npx cc-safe-setup --install-example cost-tracker',
+    test(cmd) { return null; /* Tracks cumulative cost, not single commands */ }
+  },
+];
+
+const EXAMPLES = [
+  'rm -rf /',
+  'rm -rf ~/',
+  'rm -rf .',
+  'rm -rf node_modules',
+  'git push origin main',
+  'git push --force',
+  'git reset --hard HEAD~5',
+  'git clean -fd',
+  'git add .env',
+  'git add .',
+  'git add .env.production',
+  'git commit -m "fix"',
+  'sudo rm -rf /var/log',
+  'npm install -g typescript',
+  'pip install requests',
+  'DROP DATABASE production',
+  'npx prisma reset',
+  'rails db:drop',
+  'source .env',
+  'vercel deploy',
+  'npm publish',
+  'docker system prune',
+  'npm test',
+  'cargo build',
+  'pytest -v',
+  'go test ./...',
+  'make build',
+  'Remove-Item -Recurse -Force *',
+  'cat ~/.aws/credentials',
+  'sed -i "" ~/.bashrc',
+  'git tag -d v1.0.0',
+];
+
+// Render examples
+document.getElementById('examples').innerHTML = EXAMPLES.map(e =>
+  `<button class="ex" onclick="tryCmd('${e.replace(/'/g,"\\'")}')">${e}</button>`
+).join('');
+
+function tryCmd(cmd) {
+  document.getElementById('cmd').value = cmd;
+  analyze();
+}
+
+function analyze() {
+  const cmd = document.getElementById('cmd').value.trim();
+  const resultsEl = document.getElementById('results');
+  const scoreBar = document.getElementById('scorebar');
+
+  if (!cmd) {
+    resultsEl.innerHTML = '<div class="empty">Type a command above to see which hooks would activate</div>';
+    scoreBar.style.display = 'none';
+    return;
+  }
+
+  scoreBar.style.display = 'flex';
+
+  const results = HOOKS.map(hook => {
+    const result = hook.test(cmd);
+    return {
+      ...hook,
+      result: result || { action: 'inactive', reason: 'No match — this hook would not fire' }
+    };
+  });
+
+  // Sort: blocks first, then warns, then pass, then inactive
+  const order = { block: 0, warn: 1, pass: 2, inactive: 3 };
+  results.sort((a, b) => order[a.result.action] - order[b.result.action]);
+
+  // Calculate score
+  const blocks = results.filter(r => r.result.action === 'block').length;
+  const warns = results.filter(r => r.result.action === 'warn').length;
+  const passes = results.filter(r => r.result.action === 'pass').length;
+  const score = Math.max(0, 100 - blocks * 30 - warns * 10 + passes * 5);
+
+  const scoreEl = document.getElementById('score');
+  const fillEl = document.getElementById('scorefill');
+  const verdictEl = document.getElementById('verdict');
+
+  scoreEl.textContent = score;
+  fillEl.style.width = score + '%';
+
+  if (score >= 80) {
+    scoreEl.style.color = '#3fb950';
+    fillEl.style.background = '#238636';
+    verdictEl.textContent = passes > 0 ? 'Auto-approved' : 'Safe';
+    verdictEl.style.color = '#3fb950';
+  } else if (score >= 40) {
+    scoreEl.style.color = '#d29922';
+    fillEl.style.background = '#9e6a03';
+    verdictEl.textContent = 'Caution';
+    verdictEl.style.color = '#d29922';
+  } else {
+    scoreEl.style.color = '#f85149';
+    fillEl.style.background = '#da3633';
+    verdictEl.textContent = 'Blocked';
+    verdictEl.style.color = '#f85149';
+  }
+
+  const icons = { block: '🛑', warn: '⚠️', pass: '✅', inactive: '·' };
+
+  // Only show active hooks + first 5 inactive
+  const active = results.filter(r => r.result.action !== 'inactive');
+  const inactive = results.filter(r => r.result.action === 'inactive').slice(0, 5);
+  const hidden = results.filter(r => r.result.action === 'inactive').length - inactive.length;
+
+  const shown = [...active, ...inactive];
+
+  resultsEl.innerHTML = shown.map(r => `
+    <div class="result ${r.result.action}">
+      <span class="r-icon">${icons[r.result.action]}</span>
+      <span class="r-name">${r.name}</span>
+      <span class="r-action ${r.result.action}">${r.result.action.toUpperCase()}</span>
+      <span class="r-reason">${r.result.reason}</span>
+      ${r.result.action !== 'inactive' ? `<span class="r-install" onclick="navigator.clipboard.writeText('${r.install}');this.textContent='Copied!';setTimeout(()=>this.textContent='Install',1500)">Install</span>` : ''}
+    </div>
+  `).join('') + (hidden > 0 ? `<div style="text-align:center;color:#484f58;font-size:.75rem;padding:.3rem">+${hidden} more hooks (no match)</div>` : '');
+}
+
+// Initial render
+analyze();
+</script>
+</body>
+</html>
