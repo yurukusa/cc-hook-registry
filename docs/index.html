@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">90 hooks. Search, browse, install.</p>
+<p class="sub">95 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -149,6 +149,11 @@ const H=[
 {id:'crontab-guard',n:'Crontab Guard',c:'safety',d:'Warn before modifying crontab',i:'npx cc-safe-setup --install-example crontab-guard',t:['cron','crontab','schedule']},
 {id:'terraform-guard',n:'Terraform Guard',c:'safety',d:'Block terraform destroy, warn on apply',i:'npx cc-safe-setup --install-example terraform-guard',t:['terraform','destroy','infra']},
 {id:'kubernetes-guard',n:'Kubernetes Guard',c:'safety',d:'Block kubectl delete namespace/node',i:'npx cc-safe-setup --install-example kubernetes-guard',t:['kubectl','kubernetes','k8s']},
+{id:'ssh-key-protect',n:'SSH Key Protect',c:'security',d:'Block reading/copying SSH private keys',i:'npx cc-safe-setup --install-example ssh-key-protect',t:['ssh','key','exfiltration']},
+{id:'post-compact-restore',n:'Post Compact Restore',c:'utility',d:'Restore context state after /compact',i:'npx cc-safe-setup --install-example post-compact-restore',t:['compact','context','restore']},
+{id:'encoding-guard',n:'Encoding Guard',c:'quality',d:'Warn on non-UTF-8 file edits',i:'npx cc-safe-setup --install-example encoding-guard',t:['encoding','utf8','charset']},
+{id:'dangling-process-guard',n:'Dangling Process Guard',c:'utility',d:'Detect background processes after session',i:'npx cc-safe-setup --install-example dangling-process-guard',t:['process','server','background']},
+{id:'git-signed-commit-guard',n:'Git Signed Commit Guard',c:'quality',d:'Warn on --no-gpg-sign bypass',i:'npx cc-safe-setup --install-example git-signed-commit-guard',t:['git','gpg','signing']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
