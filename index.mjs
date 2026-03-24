@@ -91,6 +91,8 @@ const REGISTRY = [
   { id: 'auto-approve-make', name: 'Auto-Approve Make', category: 'approve', source: 'cc-safe-setup', trigger: 'PreToolUse', desc: 'Auto-approve make build/test/lint', tags: ['make', 'makefile'], install: 'npx cc-safe-setup --install-example auto-approve-make' },
   { id: 'auto-approve-go', name: 'Auto-Approve Go', category: 'approve', source: 'cc-safe-setup', trigger: 'PreToolUse', desc: 'Auto-approve go build/test/vet', tags: ['go', 'golang'], install: 'npx cc-safe-setup --install-example auto-approve-go' },
   { id: 'auto-approve-cargo', name: 'Auto-Approve Cargo', category: 'approve', source: 'cc-safe-setup', trigger: 'PreToolUse', desc: 'Auto-approve cargo build/test/clippy', tags: ['rust', 'cargo'], install: 'npx cc-safe-setup --install-example auto-approve-cargo' },
+  { id: 'auto-approve-gradle', name: 'Auto-Approve Gradle', category: 'approve', source: 'cc-safe-setup', trigger: 'PreToolUse', desc: 'Auto-approve gradle/gradlew build/test', tags: ['java', 'kotlin', 'gradle'], install: 'npx cc-safe-setup --install-example auto-approve-gradle' },
+  { id: 'auto-approve-maven', name: 'Auto-Approve Maven', category: 'approve', source: 'cc-safe-setup', trigger: 'PreToolUse', desc: 'Auto-approve mvn compile/test/verify', tags: ['java', 'maven', 'mvn'], install: 'npx cc-safe-setup --install-example auto-approve-maven' },
 
   // External projects
   { id: 'safety-net', name: 'Safety Net (Full Suite)', category: 'safety', source: 'kenryu42/claude-code-safety-net', trigger: 'PreToolUse', desc: 'TypeScript safety hooks with configurable severity levels', tags: ['typescript', 'safety', 'configurable'], install: 'npx @anthropic-ai/claude-code-safety-net', stars: 1185 },
