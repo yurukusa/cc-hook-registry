@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">115 hooks. Search, browse, install.</p>
+<p class="sub">120 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -174,6 +174,11 @@ const H=[
 {id:'no-network-exfil',n:'No Network Exfil',c:'security',d:'Block data upload to unknown hosts',i:'npx cc-safe-setup --install-example no-network-exfil',t:['curl','upload','exfiltration']},
 {id:'gitignore-check',n:'Gitignore Check',c:'quality',d:'Warn if .gitignore missing',i:'npx cc-safe-setup --install-example gitignore-check',t:['gitignore','git','check']},
 {id:'package-json-guard',n:'Package JSON Guard',c:'safety',d:'Block deleting package.json',i:'npx cc-safe-setup --install-example package-json-guard',t:['package','npm','delete']},
+{id:'npm-audit-warn',n:'NPM Audit Warn',c:'quality',d:'Remind to run npm audit after install',i:'npx cc-safe-setup --install-example npm-audit-warn',t:['npm','audit','security']},
+{id:'no-git-rebase-public',n:'No Git Rebase Public',c:'safety',d:'Block rebasing already-pushed branches',i:'npx cc-safe-setup --install-example no-git-rebase-public',t:['git','rebase','history']},
+{id:'env-prod-guard',n:'Env Prod Guard',c:'safety',d:'Warn on production env vars in commands',i:'npx cc-safe-setup --install-example env-prod-guard',t:['env','production','deploy']},
+{id:'session-summary',n:'Session Summary',c:'utility',d:'Generate session summary on stop',i:'npx cc-safe-setup --install-example session-summary',t:['session','summary','git']},
+{id:'no-package-lock-edit',n:'No Lockfile Edit',c:'safety',d:'Block manual lockfile edits',i:'npx cc-safe-setup --install-example no-package-lock-edit',t:['lockfile','edit','npm']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
