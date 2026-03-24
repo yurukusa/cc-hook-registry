@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">165 hooks. Search, browse, install.</p>
+<p class="sub">170 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -224,6 +224,11 @@ const H=[
 {id:'no-secrets-in-logs',n:'No Secrets in Logs',c:'security',d:'Detect secrets in tool output',i:'npx cc-safe-setup --install-example no-secrets-in-logs',t:['secret','log','output']},
 {id:'no-anonymous-export',n:'No Anonymous Export',c:'quality',d:'Warn on anonymous default exports',i:'npx cc-safe-setup --install-example no-anonymous-default-export',t:['export','anonymous','naming']},
 {id:'check-gitattributes',n:'Check Gitattributes',c:'quality',d:'Warn if .gitattributes missing for binaries',i:'npx cc-safe-setup --install-example check-gitattributes',t:['gitattributes','lfs','binary']},
+{id:'no-floating-promises',n:'No Floating Promises',c:'quality',d:'Warn on unhandled async calls',i:'npx cc-safe-setup --install-example no-floating-promises',t:['async','promise','await']},
+{id:'check-accessibility',n:'Check Accessibility',c:'quality',d:'Warn on missing alt attributes',i:'npx cc-safe-setup --install-example check-accessibility',t:['a11y','alt','img']},
+{id:'no-mutation-in-reducer',n:'No Reducer Mutation',c:'quality',d:'Warn on direct state mutation',i:'npx cc-safe-setup --install-example no-mutation-in-reducer',t:['redux','state','mutation']},
+{id:'check-package-size',n:'Check Package Size',c:'quality',d:'Warn on 50+ dependencies',i:'npx cc-safe-setup --install-example check-package-size',t:['package','deps','size']},
+{id:'no-circular-dependency',n:'No Circular Dep',c:'quality',d:'Detect circular peer deps',i:'npx cc-safe-setup --install-example no-circular-dependency',t:['circular','dependency']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
