@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">120 hooks. Search, browse, install.</p>
+<p class="sub">123 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -179,6 +179,9 @@ const H=[
 {id:'env-prod-guard',n:'Env Prod Guard',c:'safety',d:'Warn on production env vars in commands',i:'npx cc-safe-setup --install-example env-prod-guard',t:['env','production','deploy']},
 {id:'session-summary',n:'Session Summary',c:'utility',d:'Generate session summary on stop',i:'npx cc-safe-setup --install-example session-summary',t:['session','summary','git']},
 {id:'no-package-lock-edit',n:'No Lockfile Edit',c:'safety',d:'Block manual lockfile edits',i:'npx cc-safe-setup --install-example no-package-lock-edit',t:['lockfile','edit','npm']},
+{id:'no-localhost-expose',n:'No Localhost Expose',c:'security',d:'Warn on 0.0.0.0 binding',i:'npx cc-safe-setup --install-example no-localhost-expose',t:['localhost','bind','network']},
+{id:'write-test-ratio',n:'Write Test Ratio',c:'quality',d:'Warn when writing code without tests',i:'npx cc-safe-setup --install-example write-test-ratio',t:['test','ratio','coverage']},
+{id:'no-write-outside-src',n:'No Write Outside Src',c:'safety',d:'Restrict Write to standard directories',i:'npx cc-safe-setup --install-example no-write-outside-src',t:['write','scope','directory']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
