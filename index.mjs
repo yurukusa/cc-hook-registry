@@ -356,6 +356,24 @@ else if (command === 'recommend') {
     recommendations.push({ id: 'auto-approve-make', reason: 'Makefile detected', priority: 2 });
   }
 
+  // CI/CD detection
+  if (existsSync(join(cwd, '.github', 'workflows'))) {
+    recommendations.push({ id: 'ci-skip-guard', reason: 'GitHub Actions detected — prevent [skip ci]', priority: 2 });
+  }
+
+  // Monorepo detection
+  if (existsSync(join(cwd, 'lerna.json')) || existsSync(join(cwd, 'pnpm-workspace.yaml')) || existsSync(join(cwd, 'turbo.json'))) {
+    recommendations.push({ id: 'scope-guard', reason: 'Monorepo detected — prevent cross-package operations', priority: 2 });
+  }
+
+  // TypeScript project
+  if (existsSync(join(cwd, 'tsconfig.json'))) {
+    recommendations.push({ id: 'typescript-strict-guard', reason: 'TypeScript project — protect strict mode', priority: 3 });
+  }
+
+  // Universal quality
+  recommendations.push({ id: 'auto-approve-readonly', reason: 'Eliminates 80% of permission prompts', priority: 1 });
+
   // Always useful
   recommendations.push({ id: 'compound-command-approver', reason: 'Fixes permission matching for cd && commands', priority: 2 });
   recommendations.push({ id: 'loop-detector', reason: 'Prevents infinite command loops', priority: 3 });
