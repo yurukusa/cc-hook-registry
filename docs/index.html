@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">123 hooks. Search, browse, install.</p>
+<p class="sub">130 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -182,6 +182,13 @@ const H=[
 {id:'no-localhost-expose',n:'No Localhost Expose',c:'security',d:'Warn on 0.0.0.0 binding',i:'npx cc-safe-setup --install-example no-localhost-expose',t:['localhost','bind','network']},
 {id:'write-test-ratio',n:'Write Test Ratio',c:'quality',d:'Warn when writing code without tests',i:'npx cc-safe-setup --install-example write-test-ratio',t:['test','ratio','coverage']},
 {id:'no-write-outside-src',n:'No Write Outside Src',c:'safety',d:'Restrict Write to standard directories',i:'npx cc-safe-setup --install-example no-write-outside-src',t:['write','scope','directory']},
+{id:'output-pii-detect',n:'Output PII Detect',c:'security',d:'Detect email/IP in tool output',i:'npx cc-safe-setup --install-example output-pii-detect',t:['pii','email','privacy']},
+{id:'no-force-install',n:'No Force Install',c:'safety',d:'Block --force on npm/pip install',i:'npx cc-safe-setup --install-example no-force-install',t:['force','install','npm']},
+{id:'git-hook-bypass-guard',n:'Git Hook Bypass Guard',c:'safety',d:'Block --no-verify on git commands',i:'npx cc-safe-setup --install-example git-hook-bypass-guard',t:['git','verify','hooks']},
+{id:'cors-star-warn',n:'CORS Star Warn',c:'security',d:'Warn on Access-Control-Allow-Origin: *',i:'npx cc-safe-setup --install-example cors-star-warn',t:['cors','security','web']},
+{id:'no-sensitive-log',n:'No Sensitive Log',c:'security',d:'Block logging passwords/tokens',i:'npx cc-safe-setup --install-example no-sensitive-log',t:['log','password','token']},
+{id:'git-message-length',n:'Git Message Length',c:'quality',d:'Warn on commit messages under 10 chars',i:'npx cc-safe-setup --install-example git-message-length',t:['git','commit','message']},
+{id:'max-subagent-count',n:'Max Subagent Count',c:'utility',d:'Warn on too many subagents',i:'npx cc-safe-setup --install-example max-subagent-count',t:['subagent','agent','limit']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
