@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">76 hooks. Search, browse, install.</p>
+<p class="sub">80 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -135,6 +135,10 @@ const H=[
 {id:'sensitive-regex-guard',n:'ReDoS Guard',c:'security',d:'Detect ReDoS-vulnerable regex patterns',i:'npx cc-safe-setup --install-example sensitive-regex-guard',t:['regex','redos','security']},
 {id:'test-coverage-guard',n:'Test Coverage Guard',c:'quality',d:'Warn when code grows without tests',i:'npx cc-safe-setup --install-example test-coverage-guard',t:['test','coverage','commit']},
 {id:'stale-env-guard',n:'Stale Env Guard',c:'security',d:'Warn when .env is 90+ days old',i:'npx cc-safe-setup --install-example stale-env-guard',t:['env','rotation','security']},
+{id:'typosquat-guard',n:'Typosquat Guard',c:'security',d:'Detect npm/pip typosquatting attacks',i:'npx cc-safe-setup --install-example typosquat-guard',t:['npm','supply-chain','typo']},
+{id:'typescript-strict-guard',n:'TypeScript Strict Guard',c:'quality',d:'Warn when tsconfig strict mode disabled',i:'npx cc-safe-setup --install-example typescript-strict-guard',t:['typescript','strict','tsconfig']},
+{id:'permission-cache',n:'Permission Cache',c:'approve',d:'Auto-approve previously approved commands',i:'npx cc-safe-setup --install-example permission-cache',t:['cache','approve','session']},
+{id:'git-author-guard',n:'Git Author Guard',c:'quality',d:'Verify commit author is configured',i:'npx cc-safe-setup --install-example git-author-guard',t:['git','author','config']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
