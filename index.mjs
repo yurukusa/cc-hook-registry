@@ -88,6 +88,9 @@ const REGISTRY = [
   { id: 'protect-claudemd', name: 'Protect CLAUDE.md', category: 'safety', source: 'cc-safe-setup', trigger: 'PreToolUse', desc: 'Block edits to CLAUDE.md and settings files', tags: ['claudemd', 'config', 'protect'], install: 'npx cc-safe-setup --install-example protect-claudemd' },
   { id: 'no-curl-upload', name: 'No Curl Upload', category: 'safety', source: 'cc-safe-setup', trigger: 'PreToolUse', desc: 'Warn on curl POST/upload', tags: ['curl', 'upload', 'exfiltration'], install: 'npx cc-safe-setup --install-example no-curl-upload' },
   { id: 'max-file-count-guard', name: 'Max File Count', category: 'quality', source: 'cc-safe-setup', trigger: 'PostToolUse', desc: 'Warn when 20+ new files per session', tags: ['files', 'count'], install: 'npx cc-safe-setup --install-example max-file-count-guard' },
+  { id: 'auto-approve-make', name: 'Auto-Approve Make', category: 'approve', source: 'cc-safe-setup', trigger: 'PreToolUse', desc: 'Auto-approve make build/test/lint', tags: ['make', 'makefile'], install: 'npx cc-safe-setup --install-example auto-approve-make' },
+  { id: 'auto-approve-go', name: 'Auto-Approve Go', category: 'approve', source: 'cc-safe-setup', trigger: 'PreToolUse', desc: 'Auto-approve go build/test/vet', tags: ['go', 'golang'], install: 'npx cc-safe-setup --install-example auto-approve-go' },
+  { id: 'auto-approve-cargo', name: 'Auto-Approve Cargo', category: 'approve', source: 'cc-safe-setup', trigger: 'PreToolUse', desc: 'Auto-approve cargo build/test/clippy', tags: ['rust', 'cargo'], install: 'npx cc-safe-setup --install-example auto-approve-cargo' },
 
   // External projects
   { id: 'safety-net', name: 'Safety Net (Full Suite)', category: 'safety', source: 'kenryu42/claude-code-safety-net', trigger: 'PreToolUse', desc: 'TypeScript safety hooks with configurable severity levels', tags: ['typescript', 'safety', 'configurable'], install: 'npx @anthropic-ai/claude-code-safety-net', stars: 1185 },
