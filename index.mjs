@@ -112,6 +112,7 @@ if (!command || command === '--help' || command === '-h') {
     browse [category]    Browse by category (safety, quality, approve, utility, monitoring, ux)
     install <id>         Install a hook
     info <id>            Show hook details
+    recommend            Recommend hooks for current project
     stats                Registry statistics
 
   Examples:
@@ -269,6 +270,100 @@ else if (command === 'info') {
   if (hook.issue) console.log('  Issue:    https://github.com/anthropics/claude-code/issues/' + hook.issue.replace('#', ''));
   if (hook.stars) console.log('  Stars:    ' + hook.stars);
   console.log('  Tags:     ' + hook.tags.join(', '));
+  console.log();
+}
+
+else if (command === 'recommend') {
+  console.log();
+  console.log(c.bold + '  Recommended hooks for this project' + c.reset);
+  console.log();
+
+  const cwd = process.cwd();
+  const recommendations = [];
+
+  // Always recommend safety essentials
+  recommendations.push({ id: 'destructive-guard', reason: 'Essential — prevents rm -rf disasters', priority: 1 });
+  recommendations.push({ id: 'branch-guard', reason: 'Essential — prevents push to main', priority: 1 });
+  recommendations.push({ id: 'secret-guard', reason: 'Essential — prevents .env commits', priority: 1 });
+
+  // Detect tech stack
+  if (existsSync(join(cwd, 'package.json'))) {
+    const pkg = JSON.parse(readFileSync(join(cwd, 'package.json'), 'utf-8'));
+    recommendations.push({ id: 'auto-approve-build', reason: 'Node.js project detected', priority: 2 });
+    if (pkg.dependencies?.prisma || pkg.devDependencies?.prisma) {
+      recommendations.push({ id: 'block-database-wipe', reason: 'Prisma detected — protect against migrate reset', priority: 1 });
+    }
+    if (pkg.scripts?.deploy || pkg.scripts?.['vercel-build']) {
+      recommendations.push({ id: 'deploy-guard', reason: 'Deploy script detected', priority: 2 });
+    }
+  }
+
+  if (existsSync(join(cwd, 'requirements.txt')) || existsSync(join(cwd, 'pyproject.toml'))) {
+    recommendations.push({ id: 'auto-approve-python', reason: 'Python project detected', priority: 2 });
+  }
+
+  if (existsSync(join(cwd, 'Dockerfile')) || existsSync(join(cwd, 'docker-compose.yml'))) {
+    recommendations.push({ id: 'auto-approve-docker', reason: 'Docker detected', priority: 2 });
+  }
+
+  if (existsSync(join(cwd, '.env')) || existsSync(join(cwd, '.env.local'))) {
+    recommendations.push({ id: 'env-source-guard', reason: '.env file present — prevent sourcing', priority: 1 });
+  }
+
+  if (existsSync(join(cwd, 'Gemfile'))) {
+    recommendations.push({ id: 'block-database-wipe', reason: 'Rails detected — protect against db:drop', priority: 1 });
+  }
+
+  if (existsSync(join(cwd, 'artisan'))) {
+    recommendations.push({ id: 'block-database-wipe', reason: 'Laravel detected — protect against migrate:fresh', priority: 1 });
+  }
+
+  // Always useful
+  recommendations.push({ id: 'compound-command-approver', reason: 'Fixes permission matching for cd && commands', priority: 2 });
+  recommendations.push({ id: 'loop-detector', reason: 'Prevents infinite command loops', priority: 3 });
+  recommendations.push({ id: 'session-handoff', reason: 'Saves state for next session', priority: 3 });
+  recommendations.push({ id: 'cost-tracker', reason: 'Track session costs', priority: 3 });
+
+  // Deduplicate and sort by priority
+  const seen = new Set();
+  const unique = recommendations.filter(r => { if (seen.has(r.id)) return false; seen.add(r.id); return true; });
+  unique.sort((a, b) => a.priority - b.priority);
+
+  // Check what's already installed
+  let installed = new Set();
+  if (existsSync(SETTINGS_PATH)) {
+    try {
+      const s = JSON.parse(readFileSync(SETTINGS_PATH, 'utf-8'));
+      for (const entries of Object.values(s.hooks || {})) {
+        for (const e of entries) {
+          for (const h of (e.hooks || [])) {
+            if (h.command) installed.add(h.command.split('/').pop().replace('.sh', ''));
+          }
+        }
+      }
+    } catch {}
+  }
+
+  for (const rec of unique) {
+    const hook = REGISTRY.find(h => h.id === rec.id);
+    if (!hook) continue;
+    const isInstalled = installed.has(rec.id);
+    const icon = isInstalled ? c.green + '✓' + c.reset : c.yellow + '○' + c.reset;
+    const status = isInstalled ? c.dim + '(installed)' + c.reset : '';
+    console.log('  ' + icon + ' ' + c.bold + rec.id + c.reset + ' ' + status);
+    console.log('    ' + c.dim + rec.reason + c.reset);
+    if (!isInstalled) {
+      console.log('    ' + c.dim + 'Install: npx cc-hook-registry install ' + rec.id + c.reset);
+    }
+    console.log();
+  }
+
+  const notInstalled = unique.filter(r => !installed.has(r.id));
+  if (notInstalled.length === 0) {
+    console.log(c.green + '  All recommended hooks are installed!' + c.reset);
+  } else {
+    console.log(c.dim + '  ' + notInstalled.length + ' recommended hook(s) not yet installed.' + c.reset);
+  }
   console.log();
 }
 
