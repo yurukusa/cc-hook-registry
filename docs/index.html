@@ -42,10 +42,19 @@ a{color:#58a6ff;text-decoration:none}
 <div class="count" id="count"></div>
 <div id="list"></div>
 
+<div style="max-width:800px;margin:1.5rem auto;padding:0 1.5rem">
+<div style="background:#161b22;border:1px solid #30363d;border-radius:6px;padding:1rem;text-align:center">
+  <div style="color:#f0f6fc;font-weight:600;margin-bottom:.5rem">Quick Setup</div>
+  <code style="background:#0d1117;padding:.4rem .8rem;border-radius:4px;font-size:.85rem;color:#58a6ff;cursor:pointer" onclick="navigator.clipboard.writeText('npx cc-hook-registry init');this.textContent='Copied!';setTimeout(()=>this.textContent='npx cc-hook-registry init',1500)">npx cc-hook-registry init</code>
+  <div style="color:#8b949e;font-size:.75rem;margin-top:.4rem">Detects your tech stack and installs recommended hooks automatically</div>
+</div>
+</div>
+
 <div class="footer">
   <a href="https://github.com/yurukusa/cc-hook-registry">GitHub</a> ·
   <a href="https://www.npmjs.com/package/cc-hook-registry">npm</a> ·
-  <code>npx cc-hook-registry search &lt;keyword&gt;</code>
+  <a href="https://yurukusa.github.io/cc-safe-setup/">Safety Audit</a> ·
+  <a href="https://yurukusa.github.io/claude-code-hooks/">Cookbook</a>
 </div>
 </div>
 
