@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">135 hooks. Search, browse, install.</p>
+<p class="sub">140 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -194,6 +194,11 @@ const H=[
 {id:'log-level-guard',n:'Log Level Guard',c:'quality',d:'Warn on debug log in production',i:'npx cc-safe-setup --install-example log-level-guard',t:['log','debug']},
 {id:'max-file-delete-count',n:'Max File Delete',c:'safety',d:'Warn on deleting 5+ files',i:'npx cc-safe-setup --install-example max-file-delete-count',t:['delete','count']},
 {id:'no-inline-style',n:'No Inline Style',c:'quality',d:'Warn on inline styles in HTML/JSX',i:'npx cc-safe-setup --install-example no-inline-style',t:['css','style']},
+{id:'no-console-error-swallow',n:'No Error Swallow',c:'quality',d:'Warn on empty catch/except blocks',i:'npx cc-safe-setup --install-example no-console-error-swallow',t:['catch','error','empty']},
+{id:'no-hardcoded-url',n:'No Hardcoded URL',c:'quality',d:'Warn on hardcoded localhost URLs',i:'npx cc-safe-setup --install-example no-hardcoded-url',t:['url','localhost','env']},
+{id:'migration-safety',n:'Migration Safety',c:'safety',d:'Require backup before DB migrations',i:'npx cc-safe-setup --install-example migration-safety',t:['migrate','backup','database']},
+{id:'no-package-downgrade',n:'No Package Downgrade',c:'safety',d:'Block npm/pip downgrade commands',i:'npx cc-safe-setup --install-example no-package-downgrade',t:['npm','downgrade','version']},
+{id:'timezone-guard',n:'Timezone Guard',c:'quality',d:'Warn on non-UTC timezone in commands',i:'npx cc-safe-setup --install-example timezone-guard',t:['timezone','utc','time']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
