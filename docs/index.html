@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">51 hooks. Search, browse, install.</p>
+<p class="sub">54 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -109,6 +109,9 @@ const H=[
 {id:'error-memory-guard',n:'Error Memory Guard',c:'safety',d:'Block retries of commands that already failed 3x',i:'npx cc-safe-setup --install-example error-memory-guard',t:['error','retry','loop']},
 {id:'parallel-edit-guard',n:'Parallel Edit Guard',c:'safety',d:'Detect concurrent edits to same file',i:'npx cc-safe-setup --install-example parallel-edit-guard',t:['parallel','agent','conflict']},
 {id:'large-read-guard',n:'Large Read Guard',c:'utility',d:'Warn before catting large files into context',i:'npx cc-safe-setup --install-example large-read-guard',t:['cat','large','context']},
+{id:'compact-reminder',n:'Compact Reminder',c:'utility',d:'Suggest /compact after N tool calls',i:'npx cc-safe-setup --install-example compact-reminder',t:['compact','context','session']},
+{id:'revert-helper',n:'Revert Helper',c:'utility',d:'Show undo command on session end',i:'npx cc-safe-setup --install-example revert-helper',t:['revert','undo','git']},
+{id:'auto-stash-before-pull',n:'Auto Stash Before Pull',c:'safety',d:'Warn before pull/merge with dirty tree',i:'npx cc-safe-setup --install-example auto-stash-before-pull',t:['git','stash','pull']},
 {id:'strict-allowlist',n:'Strict Allowlist',c:'safety',d:'Only allow explicitly permitted commands (allowlist mode)',i:'npx cc-safe-setup --install-example strict-allowlist',t:['allowlist','whitelist','strict']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
