@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">60 hooks. Search, browse, install.</p>
+<p class="sub">63 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -119,6 +119,9 @@ const H=[
 {id:'branch-naming',n:'Branch Naming',c:'quality',d:'Enforce feat/fix/chore branch prefixes',i:'npx cc-safe-setup --install-example branch-naming-convention',t:['branch','naming','convention']},
 {id:'no-todo-ship',n:'No TODO Ship',c:'quality',d:'Warn on TODO/FIXME in commits',i:'npx cc-safe-setup --install-example no-todo-ship',t:['todo','fixme','commit']},
 {id:'strict-allowlist',n:'Strict Allowlist',c:'safety',d:'Only allow explicitly permitted commands (allowlist mode)',i:'npx cc-safe-setup --install-example strict-allowlist',t:['allowlist','whitelist','strict']},
+{id:'context-snapshot',n:'Context Snapshot',c:'utility',d:'Auto-save branch, files, TODOs before context loss',i:'npx cc-safe-setup --install-example context-snapshot',t:['context','compact','snapshot']},
+{id:'lockfile-guard',n:'Lockfile Guard',c:'quality',d:'Warn when lockfiles are modified in commits',i:'npx cc-safe-setup --install-example lockfile-guard',t:['lock','npm','yarn','cargo']},
+{id:'git-lfs-guard',n:'Git LFS Guard',c:'quality',d:'Suggest Git LFS for large binary files',i:'npx cc-safe-setup --install-example git-lfs-guard',t:['lfs','binary','large']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
