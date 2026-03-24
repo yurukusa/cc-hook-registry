@@ -28,22 +28,25 @@ npx cc-hook-registry stats              # Registry statistics
 
 | Category | Hooks | What They Do |
 |----------|-------|-------------|
-| safety | 11 | Block destructive commands, protect files |
+| safety | 14 | Block destructive commands, protect files, secrets |
 | quality | 4 | Syntax checks, commit quality, edit validation |
 | utility | 3 | Cleanup, debugging, session handoff |
 | monitoring | 2 | Context window, cost tracking |
+| ux | 2 | Desktop notifications, sound alerts |
+| framework | 2 | Python + TypeScript/Bun frameworks |
 | approve | 1 | Auto-approve safe compound commands |
-| ux | 1 | Desktop notifications |
-| framework | 1 | Python hook framework |
 | security | 1 | Prompt injection defense |
 
-## 24 Hooks
+## 29 Hooks
 
 The registry includes hooks from:
-- **cc-safe-setup** (21 hooks) — `npx cc-safe-setup`
+- **cc-safe-setup** (22 hooks) — `npx cc-safe-setup`
 - **claude-code-safety-net** (1,185★) — TypeScript safety hooks
-- **claude-code-hooks-mastery** (3,386★) — Python hook framework
+- **karanb192/claude-code-hooks** (298★) — JavaScript safety
+- **johnlindquist/claude-hooks** (329★) — TypeScript/Bun
+- **claude-code-hooks-mastery** (3,386★) — Python framework
 - **claude-hooks** by lasso-security — Prompt injection defense
+- **awesome-claude-code** by pascalporedda — Sound notifications
 
 ## How It Works
 
