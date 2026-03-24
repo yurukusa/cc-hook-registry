@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Hook Registry</title>
+<meta name="description" content="Search 48 hooks from 7 projects. Find and install Claude Code safety hooks.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#c9d1d9;min-height:100vh;padding:1.5rem}
+.c{max-width:800px;margin:0 auto}
+h1{font-size:1.4rem;color:#f0f6fc;margin-bottom:.3rem}
+.sub{color:#8b949e;font-size:.85rem;margin-bottom:1rem}
+input{width:100%;padding:.6rem;background:#161b22;border:1px solid #30363d;border-radius:6px;color:#c9d1d9;font-size:.9rem;margin-bottom:.75rem}
+input::placeholder{color:#484f58}
+.filters{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.75rem}
+.f{padding:.2rem .5rem;border-radius:3px;border:1px solid #30363d;background:transparent;color:#8b949e;cursor:pointer;font-size:.7rem}
+.f.active{background:#238636;border-color:#238636;color:#fff}
+.count{color:#8b949e;font-size:.8rem;margin-bottom:.5rem}
+.hook{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:.75rem;margin:.4rem 0}
+.hook-name{font-weight:600;color:#f0f6fc;font-size:.9rem}
+.hook-meta{font-size:.7rem;color:#484f58;margin-top:.2rem}
+.hook-desc{color:#8b949e;font-size:.8rem;margin-top:.3rem}
+.hook-install{font-family:monospace;font-size:.75rem;color:#58a6ff;margin-top:.3rem}
+a{color:#58a6ff;text-decoration:none}
+.badge{display:inline-block;padding:.1rem .3rem;border-radius:3px;font-size:.6rem;font-weight:bold;margin-left:.3rem}
+.badge-safety{background:#da363322;color:#f85149;border:1px solid #da363344}
+.badge-quality{background:#d2992222;color:#d29922;border:1px solid #d2992244}
+.badge-approve{background:#23863622;color:#3fb950;border:1px solid #23863644}
+.badge-utility{background:#1f6feb22;color:#58a6ff;border:1px solid #1f6feb44}
+.footer{text-align:center;color:#484f58;font-size:.7rem;margin-top:2rem}
+</style>
+</head>
+<body>
+<div class="c">
+<h1>Claude Code Hook Registry</h1>
+<p class="sub">48 hooks from 7 projects. Search, browse, install.</p>
+
+<input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
+
+<div class="filters" id="filters"></div>
+<div class="count" id="count"></div>
+<div id="list"></div>
+
+<div class="footer">
+  <a href="https://github.com/yurukusa/cc-hook-registry">GitHub</a> ·
+  <a href="https://www.npmjs.com/package/cc-hook-registry">npm</a> ·
+  <code>npx cc-hook-registry search &lt;keyword&gt;</code>
+</div>
+</div>
+
+<script>
+const H=[
+{id:'destructive-guard',n:'Destructive Guard',c:'safety',d:'Blocks rm -rf, git reset --hard, git clean, PowerShell Remove-Item',i:'npx cc-safe-setup',t:['rm','delete','reset']},
+{id:'branch-guard',n:'Branch Guard',c:'safety',d:'Blocks push to main/master and force-push',i:'npx cc-safe-setup',t:['git','push','force']},
+{id:'secret-guard',n:'Secret Guard',c:'safety',d:'Blocks git add .env and credential files',i:'npx cc-safe-setup',t:['env','secret','key']},
+{id:'block-database-wipe',n:'Database Wipe Guard',c:'safety',d:'Blocks migrate:fresh, DROP DATABASE, prisma reset',i:'npx cc-safe-setup --install-example block-database-wipe',t:['database','migrate','drop']},
+{id:'compound-command-approver',n:'Compound Command Approver',c:'approve',d:'Auto-approve cd && git log compounds',i:'npx cc-safe-setup --install-example compound-command-approver',t:['compound','cd','permission']},
+{id:'case-sensitive-guard',n:'Case-Insensitive FS Guard',c:'safety',d:'Detect exFAT/NTFS case collisions',i:'npx cc-safe-setup --install-example case-sensitive-guard',t:['exfat','ntfs','case']},
+{id:'loop-detector',n:'Loop Detector',c:'safety',d:'Break command repetition (warn 3, block 5)',i:'npx cc-safe-setup --install-example loop-detector',t:['loop','repeat']},
+{id:'cost-tracker',n:'Cost Tracker',c:'utility',d:'Estimate session token cost',i:'npx cc-safe-setup --install-example cost-tracker',t:['cost','token','money']},
+{id:'session-handoff',n:'Session Handoff',c:'utility',d:'Auto-save state for next session',i:'npx cc-safe-setup --install-example session-handoff',t:['session','compact','resume']},
+{id:'deploy-guard',n:'Deploy Guard',c:'safety',d:'Block deploy with uncommitted changes',i:'npx cc-safe-setup --install-example deploy-guard',t:['deploy','vercel','netlify']},
+{id:'protect-dotfiles',n:'Dotfile Protector',c:'safety',d:'Block .bashrc, .aws/, .ssh/ modifications',i:'npx cc-safe-setup --install-example protect-dotfiles',t:['dotfiles','bashrc','ssh']},
+{id:'scope-guard',n:'Scope Guard',c:'safety',d:'Block file operations outside project',i:'npx cc-safe-setup --install-example scope-guard',t:['scope','path','escape']},
+{id:'dependency-audit',n:'Dependency Audit',c:'safety',d:'Warn on unknown package installs',i:'npx cc-safe-setup --install-example dependency-audit',t:['npm','pip','supply-chain']},
+{id:'symlink-guard',n:'Symlink Guard',c:'safety',d:'Detect symlink traversal in rm targets',i:'npx cc-safe-setup --install-example symlink-guard',t:['symlink','junction','ntfs']},
+{id:'env-source-guard',n:'Env Source Guard',c:'safety',d:'Block sourcing .env into shell',i:'npx cc-safe-setup --install-example env-source-guard',t:['env','source','bash']},
+{id:'diff-size-guard',n:'Diff Size Guard',c:'quality',d:'Warn/block large commits (10+ files)',i:'npx cc-safe-setup --install-example diff-size-guard',t:['commit','diff','large']},
+{id:'commit-quality-gate',n:'Commit Quality',c:'quality',d:'Warn on vague commit messages',i:'npx cc-safe-setup --install-example commit-quality-gate',t:['commit','message','vague']},
+{id:'read-before-edit',n:'Read Before Edit',c:'quality',d:'Warn on editing unread files',i:'npx cc-safe-setup --install-example read-before-edit',t:['read','edit','mismatch']},
+{id:'syntax-check',n:'Syntax Check',c:'quality',d:'Python/Shell/JSON/JS syntax after edits',i:'npx cc-safe-setup',t:['syntax','python','json']},
+{id:'context-monitor',n:'Context Monitor',c:'utility',d:'Graduated context warnings (40/25/20/15%)',i:'npx cc-safe-setup',t:['context','memory','compact']},
+{id:'tmp-cleanup',n:'Tmp Cleanup',c:'utility',d:'Clean /tmp/claude-*-cwd files',i:'npx cc-safe-setup --install-example tmp-cleanup',t:['tmp','cleanup','leak']},
+{id:'auto-approve-build',n:'Auto-Approve Build',c:'approve',d:'npm/cargo/go build, test, lint',i:'npx cc-safe-setup --install-example auto-approve-build',t:['build','test','npm']},
+{id:'auto-approve-python',n:'Auto-Approve Python',c:'approve',d:'pytest, mypy, ruff, black',i:'npx cc-safe-setup --install-example auto-approve-python',t:['python','pytest','lint']},
+{id:'auto-approve-docker',n:'Auto-Approve Docker',c:'approve',d:'docker build, compose, ps, logs',i:'npx cc-safe-setup --install-example auto-approve-docker',t:['docker','compose']},
+{id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
+{id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
+];
+
+const cats=['all','safety','quality','approve','utility'];
+const badgeClass={safety:'badge-safety',quality:'badge-quality',approve:'badge-approve',utility:'badge-utility'};
+
+let filter='all';
+document.getElementById('filters').innerHTML=cats.map(c=>`<button class="f${c==='all'?' active':''}" onclick="setFilter('${c}')">${c}</button>`).join('');
+
+function setFilter(f){filter=f;document.querySelectorAll('.f').forEach(b=>b.classList.toggle('active',b.textContent===f));render();}
+
+function render(){
+  const q=(document.getElementById('q').value||'').toLowerCase();
+  const filtered=H.filter(h=>(filter==='all'||h.c===filter)&&(!q||h.n.toLowerCase().includes(q)||h.d.toLowerCase().includes(q)||h.t.some(t=>t.includes(q))||h.id.includes(q)));
+  document.getElementById('count').textContent=filtered.length+' hooks';
+  document.getElementById('list').innerHTML=filtered.map(h=>`<div class="hook"><span class="hook-name">${h.n}</span><span class="badge ${badgeClass[h.c]||''}">${h.c}</span>${h.s?` <span style="color:#484f58;font-size:.65rem">${h.s}★</span>`:''}<div class="hook-desc">${h.d}</div><div class="hook-install">${h.i}</div></div>`).join('');
+}
+render();
+</script>
+</body>
+</html>
