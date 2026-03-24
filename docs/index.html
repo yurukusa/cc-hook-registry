@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">130 hooks. Search, browse, install.</p>
+<p class="sub">135 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -189,6 +189,11 @@ const H=[
 {id:'no-sensitive-log',n:'No Sensitive Log',c:'security',d:'Block logging passwords/tokens',i:'npx cc-safe-setup --install-example no-sensitive-log',t:['log','password','token']},
 {id:'git-message-length',n:'Git Message Length',c:'quality',d:'Warn on commit messages under 10 chars',i:'npx cc-safe-setup --install-example git-message-length',t:['git','commit','message']},
 {id:'max-subagent-count',n:'Max Subagent Count',c:'utility',d:'Warn on too many subagents',i:'npx cc-safe-setup --install-example max-subagent-count',t:['subagent','agent','limit']},
+{id:'sql-injection-detect',n:'SQL Injection Detect',c:'security',d:'Detect SQL injection patterns',i:'npx cc-safe-setup --install-example sql-injection-detect',t:['sql','injection']},
+{id:'no-magic-number',n:'No Magic Number',c:'quality',d:'Warn on unexplained numeric literals',i:'npx cc-safe-setup --install-example no-magic-number',t:['magic','constant']},
+{id:'log-level-guard',n:'Log Level Guard',c:'quality',d:'Warn on debug log in production',i:'npx cc-safe-setup --install-example log-level-guard',t:['log','debug']},
+{id:'max-file-delete-count',n:'Max File Delete',c:'safety',d:'Warn on deleting 5+ files',i:'npx cc-safe-setup --install-example max-file-delete-count',t:['delete','count']},
+{id:'no-inline-style',n:'No Inline Style',c:'quality',d:'Warn on inline styles in HTML/JSX',i:'npx cc-safe-setup --install-example no-inline-style',t:['css','style']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
