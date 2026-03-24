@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">36 hooks. Search, browse, install.</p>
+<p class="sub">40 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -95,6 +95,10 @@ const H=[
 {id:'auto-approve-make',n:'Auto-Approve Make',c:'approve',d:'make build/test/lint',i:'npx cc-safe-setup --install-example auto-approve-make',t:['make','makefile']},
 {id:'auto-approve-gradle',n:'Auto-Approve Gradle',c:'approve',d:'gradle/gradlew build/test',i:'npx cc-safe-setup --install-example auto-approve-gradle',t:['java','gradle']},
 {id:'auto-approve-maven',n:'Auto-Approve Maven',c:'approve',d:'mvn compile/test/verify',i:'npx cc-safe-setup --install-example auto-approve-maven',t:['java','maven']},
+{id:'verify-before-done',n:'Verify Before Done',c:'quality',d:'Warn when committing without running tests',i:'npx cc-safe-setup --install-example verify-before-done',t:['commit','test','verify']},
+{id:'prompt-injection-guard',n:'Prompt Injection Guard',c:'safety',d:'Detect injection patterns in tool output',i:'npx cc-safe-setup --install-example prompt-injection-guard',t:['injection','security','xss']},
+{id:'disk-space-guard',n:'Disk Space Guard',c:'utility',d:'Warn when disk space is running low',i:'npx cc-safe-setup --install-example disk-space-guard',t:['disk','space','storage']},
+{id:'output-length-guard',n:'Output Length Guard',c:'utility',d:'Warn when tool output exceeds 50K chars',i:'npx cc-safe-setup --install-example output-length-guard',t:['output','context','large']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
