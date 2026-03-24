@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">95 hooks. Search, browse, install.</p>
+<p class="sub">97 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -154,6 +154,8 @@ const H=[
 {id:'encoding-guard',n:'Encoding Guard',c:'quality',d:'Warn on non-UTF-8 file edits',i:'npx cc-safe-setup --install-example encoding-guard',t:['encoding','utf8','charset']},
 {id:'dangling-process-guard',n:'Dangling Process Guard',c:'utility',d:'Detect background processes after session',i:'npx cc-safe-setup --install-example dangling-process-guard',t:['process','server','background']},
 {id:'git-signed-commit-guard',n:'Git Signed Commit Guard',c:'quality',d:'Warn on --no-gpg-sign bypass',i:'npx cc-safe-setup --install-example git-signed-commit-guard',t:['git','gpg','signing']},
+{id:'dotenv-validate',n:'Dotenv Validate',c:'quality',d:'Validate .env syntax after edits',i:'npx cc-safe-setup --install-example dotenv-validate',t:['env','syntax','validate']},
+{id:'readme-update-reminder',n:'README Update Reminder',c:'quality',d:'Remind to update README when APIs change',i:'npx cc-safe-setup --install-example readme-update-reminder',t:['readme','docs','api']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
