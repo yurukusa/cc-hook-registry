@@ -1,6 +1,9 @@
 # cc-hook-registry
 
-Search, browse, and install Claude Code hooks from the community.
+[![npm version](https://img.shields.io/npm/v/cc-hook-registry)](https://www.npmjs.com/package/cc-hook-registry)
+[![tests](https://github.com/yurukusa/cc-hook-registry/actions/workflows/test.yml/badge.svg)](https://github.com/yurukusa/cc-hook-registry/actions/workflows/test.yml)
+
+**Hook package manager for Claude Code.** Search, install, update, and manage 48 hooks from 7 projects.
 
 ```bash
 npx cc-hook-registry search database
