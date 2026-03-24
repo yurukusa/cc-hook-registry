@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">85 hooks. Search, browse, install.</p>
+<p class="sub">88 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -141,6 +141,9 @@ const H=[
 {id:'git-author-guard',n:'Git Author Guard',c:'quality',d:'Verify commit author is configured',i:'npx cc-safe-setup --install-example git-author-guard',t:['git','author','config']},
 {id:'auto-approve-readonly',n:'Auto-Approve Read-Only',c:'approve',d:'Auto-approve 50+ read-only commands (cat, ls, grep, find, git log)',i:'npx cc-safe-setup --install-example auto-approve-readonly',t:['read','approve','permission','cat','grep']},
 {id:'max-session-duration',n:'Max Session Duration',c:'utility',d:'Warn when session exceeds time limit',i:'npx cc-safe-setup --install-example max-session-duration',t:['session','time','cost']},
+{id:'subagent-scope-guard',n:'Subagent Scope Guard',c:'safety',d:'Limit subagent file access via scope file',i:'npx cc-safe-setup --install-example subagent-scope-guard',t:['subagent','scope','multiagent']},
+{id:'git-remote-guard',n:'Git Remote Guard',c:'safety',d:'Warn on push to non-origin remotes',i:'npx cc-safe-setup --install-example git-remote-guard',t:['git','remote','supply-chain']},
+{id:'aws-region-guard',n:'AWS Region Guard',c:'safety',d:'Warn on unexpected AWS region',i:'npx cc-safe-setup --install-example aws-region-guard',t:['aws','region','cloud']},
 {id:'dependency-version-pin',n:'Dependency Version Pin',c:'quality',d:'Warn on ^/~ versions without lockfile',i:'npx cc-safe-setup --install-example dependency-version-pin',t:['npm','version','pin']},
 {id:'api-endpoint-guard',n:'API Endpoint Guard',c:'security',d:'Block cloud metadata endpoints, warn internal APIs',i:'npx cc-safe-setup --install-example api-endpoint-guard',t:['api','metadata','aws']},
 {id:'crontab-guard',n:'Crontab Guard',c:'safety',d:'Warn before modifying crontab',i:'npx cc-safe-setup --install-example crontab-guard',t:['cron','crontab','schedule']},
