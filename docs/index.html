@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">44 hooks. Search, browse, install.</p>
+<p class="sub">47 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -103,6 +103,9 @@ const H=[
 {id:'test-deletion-guard',n:'Test Deletion Guard',c:'quality',d:'Warn when removing test assertions',i:'npx cc-safe-setup --install-example test-deletion-guard',t:['test','delete','assertion']},
 {id:'overwrite-guard',n:'Overwrite Guard',c:'safety',d:'Warn before silently overwriting files',i:'npx cc-safe-setup --install-example overwrite-guard',t:['write','overwrite','file']},
 {id:'memory-write-guard',n:'Memory Write Guard',c:'safety',d:'Log writes to ~/.claude/ directory',i:'npx cc-safe-setup --install-example memory-write-guard',t:['memory','claude','config']},
+{id:'fact-check-gate',n:'Fact Check Gate',c:'quality',d:'Warn when docs reference unread source files',i:'npx cc-safe-setup --install-example fact-check-gate',t:['docs','hallucination','verify']},
+{id:'token-budget-guard',n:'Token Budget Guard',c:'utility',d:'Estimate and limit session token cost',i:'npx cc-safe-setup --install-example token-budget-guard',t:['cost','token','budget']},
+{id:'conflict-marker-guard',n:'Conflict Marker Guard',c:'quality',d:'Block commits with merge conflict markers',i:'npx cc-safe-setup --install-example conflict-marker-guard',t:['merge','conflict','git']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
