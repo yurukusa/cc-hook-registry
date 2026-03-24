@@ -88,6 +88,11 @@ a{color:#58a6ff;text-decoration:none}
   <div class="ex-grid" id="examples"></div>
 </div>
 
+<div class="examples" style="margin-top:1.2rem">
+  <h2>Recommended by Stack</h2>
+  <div id="stacks" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.5rem;margin-top:.5rem"></div>
+</div>
+
 <div class="tip" style="margin-top:1rem">
   <strong style="color:#f0f6fc">How it works:</strong> This playground simulates the detection patterns from
   <a href="https://www.npmjs.com/package/cc-safe-setup">cc-safe-setup</a>'s 71 hooks. Results show what would happen
@@ -546,6 +551,26 @@ function analyze() {
     </div>
   `).join('') + (hidden > 0 ? `<div style="text-align:center;color:#484f58;font-size:.75rem;padding:.3rem">+${hidden} more hooks (no match)</div>` : '');
 }
+
+// Stack recommendations
+const STACKS = [
+  { name: 'Node.js', icon: '📦', hooks: ['destructive-guard','branch-guard','secret-guard','auto-approve-build','npm-publish-guard','dependency-audit'], cmd: 'npx cc-safe-setup && npx cc-safe-setup --install-example auto-approve-build' },
+  { name: 'Python', icon: '🐍', hooks: ['destructive-guard','branch-guard','secret-guard','auto-approve-python','env-source-guard'], cmd: 'npx cc-safe-setup && npx cc-safe-setup --install-example auto-approve-python' },
+  { name: 'Go', icon: '🔵', hooks: ['destructive-guard','branch-guard','auto-approve-go','diff-size-guard'], cmd: 'npx cc-safe-setup && npx cc-safe-setup --install-example auto-approve-go' },
+  { name: 'Rust', icon: '🦀', hooks: ['destructive-guard','branch-guard','auto-approve-cargo','diff-size-guard'], cmd: 'npx cc-safe-setup && npx cc-safe-setup --install-example auto-approve-cargo' },
+  { name: 'Java', icon: '☕', hooks: ['destructive-guard','branch-guard','auto-approve-gradle','auto-approve-maven'], cmd: 'npx cc-safe-setup && npx cc-safe-setup --install-example auto-approve-gradle' },
+  { name: 'Docker', icon: '🐳', hooks: ['destructive-guard','branch-guard','auto-approve-docker','deploy-guard'], cmd: 'npx cc-safe-setup && npx cc-safe-setup --install-example auto-approve-docker' },
+  { name: 'Database', icon: '🗄️', hooks: ['destructive-guard','block-database-wipe','secret-guard','diff-size-guard'], cmd: 'npx cc-safe-setup && npx cc-safe-setup --install-example block-database-wipe' },
+  { name: 'DevOps', icon: '🚀', hooks: ['destructive-guard','branch-guard','deploy-guard','no-sudo-guard','no-deploy-friday'], cmd: 'npx cc-safe-setup && npx cc-safe-setup --install-example deploy-guard' },
+];
+
+document.getElementById('stacks').innerHTML = STACKS.map(s => `
+  <div style="background:#161b22;border:1px solid #30363d;border-radius:6px;padding:.6rem;cursor:pointer" onclick="navigator.clipboard.writeText('${s.cmd}');this.querySelector('.st-copy').textContent='Copied!';setTimeout(()=>this.querySelector('.st-copy').textContent='Copy install',1500)">
+    <div style="font-size:1rem;margin-bottom:.3rem">${s.icon} <strong style="color:#f0f6fc;font-size:.85rem">${s.name}</strong></div>
+    <div style="color:#8b949e;font-size:.7rem">${s.hooks.length} hooks recommended</div>
+    <div class="st-copy" style="color:#58a6ff;font-size:.7rem;margin-top:.3rem">Copy install</div>
+  </div>
+`).join('');
 
 // Initial render
 analyze();
