@@ -192,10 +192,55 @@ else if (command === 'install') {
   console.log();
 
   if (hook.install.startsWith('npx cc-safe-setup')) {
-    try {
-      execSync(hook.install, { stdio: 'inherit' });
-    } catch (e) {
-      console.log(c.yellow + '  Run the command manually: ' + hook.install + c.reset);
+    // Try direct download first (no cc-safe-setup dependency)
+    const exampleName = hook.install.match(/--install-example\s+(\S+)/)?.[1];
+    if (exampleName) {
+      const rawUrl = `https://raw.githubusercontent.com/yurukusa/cc-safe-setup/main/examples/${exampleName}.sh`;
+      const hookPath = join(HOME, '.claude', 'hooks', exampleName + '.sh');
+      try {
+        mkdirSync(join(HOME, '.claude', 'hooks'), { recursive: true });
+        const script = execSync(`curl -sL "${rawUrl}"`, { encoding: 'utf-8' });
+        if (script.startsWith('#!/bin/bash')) {
+          writeFileSync(hookPath, script);
+          chmodSync(hookPath, 0o755);
+
+          // Auto-register in settings.json
+          const trigger = script.includes('PreToolUse') ? 'PreToolUse' :
+                         script.includes('PostToolUse') ? 'PostToolUse' :
+                         script.includes('Stop') ? 'Stop' : 'PreToolUse';
+          const matcher = script.includes('Matcher: "Bash"') || script.includes('MATCHER: "Bash"') ? 'Bash' :
+                         script.includes('Matcher: "Edit|Write"') ? 'Edit|Write' : '';
+
+          let settings = {};
+          if (existsSync(SETTINGS_PATH)) {
+            try { settings = JSON.parse(readFileSync(SETTINGS_PATH, 'utf-8')); } catch {}
+          }
+          if (!settings.hooks) settings.hooks = {};
+          if (!settings.hooks[trigger]) settings.hooks[trigger] = [];
+
+          const existing = settings.hooks[trigger].flatMap(e => (e.hooks || []).map(h => h.command));
+          if (!existing.some(cmd => cmd.includes(exampleName))) {
+            settings.hooks[trigger].push({
+              matcher,
+              hooks: [{ type: 'command', command: hookPath }],
+            });
+            mkdirSync(dirname(SETTINGS_PATH), { recursive: true });
+            writeFileSync(SETTINGS_PATH, JSON.stringify(settings, null, 2));
+          }
+
+          console.log(c.green + '  ✓ Installed: ' + hookPath + c.reset);
+          console.log(c.green + '  ✓ Registered in settings.json (' + trigger + ')' + c.reset);
+          console.log(c.dim + '  Restart Claude Code to activate.' + c.reset);
+        } else {
+          throw new Error('Invalid script');
+        }
+      } catch {
+        // Fallback to cc-safe-setup
+        console.log(c.dim + '  Direct download failed, using cc-safe-setup...' + c.reset);
+        try { execSync(hook.install, { stdio: 'inherit' }); } catch {}
+      }
+    } else {
+      try { execSync(hook.install, { stdio: 'inherit' }); } catch {}
     }
   } else {
     console.log(c.dim + '  This hook requires manual installation. Follow the instructions above.' + c.reset);
