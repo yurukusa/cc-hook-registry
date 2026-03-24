@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">70 hooks. Search, browse, install.</p>
+<p class="sub">74 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -129,6 +129,10 @@ const H=[
 {id:'import-cycle-warn',n:'Import Cycle Warn',c:'quality',d:'Detect circular import patterns',i:'npx cc-safe-setup --install-example import-cycle-warn',t:['import','circular','dependency']},
 {id:'env-drift-guard',n:'Env Drift Guard',c:'quality',d:'Detect .env vs .env.example mismatch',i:'npx cc-safe-setup --install-example env-drift-guard',t:['env','drift','config']},
 {id:'package-script-guard',n:'Package Script Guard',c:'quality',d:'Warn when package.json scripts change',i:'npx cc-safe-setup --install-example package-script-guard',t:['npm','scripts','package']},
+{id:'ci-skip-guard',n:'CI Skip Guard',c:'quality',d:'Warn on [skip ci] and --no-verify',i:'npx cc-safe-setup --install-example ci-skip-guard',t:['ci','skip','verify']},
+{id:'debug-leftover-guard',n:'Debug Leftover Guard',c:'quality',d:'Detect debugger/pdb/binding.pry in commits',i:'npx cc-safe-setup --install-example debug-leftover-guard',t:['debug','debugger','pdb']},
+{id:'node-version-guard',n:'Node Version Guard',c:'quality',d:'Detect .nvmrc mismatch',i:'npx cc-safe-setup --install-example node-version-guard',t:['node','nvm','version']},
+{id:'sensitive-regex-guard',n:'ReDoS Guard',c:'security',d:'Detect ReDoS-vulnerable regex patterns',i:'npx cc-safe-setup --install-example sensitive-regex-guard',t:['regex','redos','security']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
