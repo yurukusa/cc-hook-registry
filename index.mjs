@@ -336,6 +336,26 @@ else if (command === 'recommend') {
     recommendations.push({ id: 'block-database-wipe', reason: 'Laravel detected — protect against migrate:fresh', priority: 1 });
   }
 
+  if (existsSync(join(cwd, 'go.mod'))) {
+    recommendations.push({ id: 'auto-approve-go', reason: 'Go project detected', priority: 2 });
+  }
+
+  if (existsSync(join(cwd, 'Cargo.toml'))) {
+    recommendations.push({ id: 'auto-approve-cargo', reason: 'Rust project detected', priority: 2 });
+  }
+
+  if (existsSync(join(cwd, 'pom.xml'))) {
+    recommendations.push({ id: 'auto-approve-maven', reason: 'Maven project detected', priority: 2 });
+  }
+
+  if (existsSync(join(cwd, 'build.gradle')) || existsSync(join(cwd, 'build.gradle.kts'))) {
+    recommendations.push({ id: 'auto-approve-gradle', reason: 'Gradle project detected', priority: 2 });
+  }
+
+  if (existsSync(join(cwd, 'Makefile'))) {
+    recommendations.push({ id: 'auto-approve-make', reason: 'Makefile detected', priority: 2 });
+  }
+
   // Always useful
   recommendations.push({ id: 'compound-command-approver', reason: 'Fixes permission matching for cd && commands', priority: 2 });
   recommendations.push({ id: 'loop-detector', reason: 'Prevents infinite command loops', priority: 3 });
@@ -425,9 +445,35 @@ else if (command === 'init') {
     console.log('  ' + c.blue + '⬡' + c.reset + ' Rails/Laravel detected');
     toInstall.push('block-database-wipe');
   }
+  if (existsSync(join(cwd, 'go.mod'))) {
+    console.log('  ' + c.blue + '⬡' + c.reset + ' Go detected');
+    toInstall.push('auto-approve-go');
+  }
+  if (existsSync(join(cwd, 'Cargo.toml'))) {
+    console.log('  ' + c.blue + '⬡' + c.reset + ' Rust detected');
+    toInstall.push('auto-approve-cargo');
+  }
+  if (existsSync(join(cwd, 'pom.xml'))) {
+    console.log('  ' + c.blue + '⬡' + c.reset + ' Maven detected');
+    toInstall.push('auto-approve-maven');
+  }
+  if (existsSync(join(cwd, 'build.gradle')) || existsSync(join(cwd, 'build.gradle.kts'))) {
+    console.log('  ' + c.blue + '⬡' + c.reset + ' Gradle detected');
+    toInstall.push('auto-approve-gradle');
+  }
+  if (existsSync(join(cwd, 'Makefile'))) {
+    console.log('  ' + c.blue + '⬡' + c.reset + ' Makefile detected');
+    toInstall.push('auto-approve-make');
+  }
+  if (existsSync(join(cwd, 'docker-compose.yml')) || existsSync(join(cwd, 'docker-compose.yaml')) || existsSync(join(cwd, 'compose.yml'))) {
+    if (!toInstall.includes('auto-approve-docker')) {
+      console.log('  ' + c.blue + '⬡' + c.reset + ' Docker Compose detected');
+      toInstall.push('auto-approve-docker');
+    }
+  }
 
   // Always useful
-  toInstall.push('compound-command-approver', 'loop-detector', 'session-handoff');
+  toInstall.push('compound-command-approver', 'loop-detector', 'session-handoff', 'cost-tracker');
 
   // Deduplicate
   const unique = [...new Set(toInstall)];
