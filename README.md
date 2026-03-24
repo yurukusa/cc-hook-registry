@@ -19,9 +19,37 @@ npx cc-hook-registry search database
 ```bash
 npx cc-hook-registry search <keyword>   # Find hooks by keyword
 npx cc-hook-registry browse [category]  # Browse by category
-npx cc-hook-registry install <id>       # Install a hook
+npx cc-hook-registry install <id>       # Install a hook (direct download)
+npx cc-hook-registry recommend          # Recommend hooks for your project
 npx cc-hook-registry info <id>          # Show hook details
 npx cc-hook-registry stats              # Registry statistics
+```
+
+### recommend
+
+Scans your project for `package.json`, `requirements.txt`, `Dockerfile`, `.env`, `Gemfile`, `artisan` and recommends hooks based on your tech stack:
+
+```
+npx cc-hook-registry recommend
+
+  ✓ destructive-guard (installed)
+    Essential — prevents rm -rf disasters
+
+  ○ auto-approve-build
+    Node.js project detected
+    Install: npx cc-hook-registry install auto-approve-build
+
+  ○ block-database-wipe
+    Prisma detected — protect against migrate reset
+```
+
+### install (direct download)
+
+Hooks are downloaded directly from GitHub — no `cc-safe-setup` dependency needed:
+
+```bash
+npx cc-hook-registry install block-database-wipe
+# Downloads script, saves to ~/.claude/hooks/, registers in settings.json
 ```
 
 ## Categories
