@@ -432,6 +432,25 @@ const HOOKS = [
     test(cmd) { return null; /* Tracks cumulative cost, not single commands */ }
   },
   {
+    id: 'uncommitted-work-guard', name: 'Uncommitted Work Guard', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example uncommitted-work-guard',
+    test(cmd) {
+      if (/\bgit\s+(checkout\s+--|restore\s+\.|reset\s+--hard|clean\s+-[a-zA-Z]*f|stash\s+drop)/i.test(cmd))
+        return { action: 'block', reason: 'Blocks destructive git when uncommitted changes exist' };
+      return null;
+    }
+  },
+  {
+    id: 'test-deletion-guard', name: 'Test Deletion Guard', cat: 'quality',
+    install: 'npx cc-safe-setup --install-example test-deletion-guard',
+    test(cmd) { return null; /* Checks Edit old_string vs new_string, not commands */ }
+  },
+  {
+    id: 'overwrite-guard', name: 'Overwrite Guard', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example overwrite-guard',
+    test(cmd) { return null; /* Checks Write target file existence, not commands */ }
+  },
+  {
     id: 'verify-before-done', name: 'Verify Before Done', cat: 'quality',
     install: 'npx cc-safe-setup --install-example verify-before-done',
     test(cmd) {
