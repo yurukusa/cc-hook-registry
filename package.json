@@ -1,0 +1,26 @@
+{
+  "name": "cc-hook-registry",
+  "version": "1.0.0",
+  "description": "Search, browse, and install Claude Code hooks from the community. GitHub-based registry, no server needed.",
+  "main": "index.mjs",
+  "bin": {
+    "cc-hook-registry": "index.mjs"
+  },
+  "keywords": [
+    "claude-code",
+    "hooks",
+    "registry",
+    "marketplace",
+    "safety",
+    "cli"
+  ],
+  "scripts": {
+    "test": "node index.mjs --help"
+  },
+  "author": "yurukusa",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yurukusa/cc-hook-registry"
+  }
+}
