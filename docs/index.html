@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Claude Code Hook Registry</title>
-<meta name="description" content="Search 59 hooks from 7 projects. Find and install Claude Code safety hooks.">
+<meta name="description" content="Search 100+ hooks from 7 projects. Find and install Claude Code safety hooks.">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#c9d1d9;min-height:100vh;padding:1.5rem}
@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">100 hooks. Search, browse, install.</p>
+<p class="sub">101 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -154,6 +154,7 @@ const H=[
 {id:'encoding-guard',n:'Encoding Guard',c:'quality',d:'Warn on non-UTF-8 file edits',i:'npx cc-safe-setup --install-example encoding-guard',t:['encoding','utf8','charset']},
 {id:'dangling-process-guard',n:'Dangling Process Guard',c:'utility',d:'Detect background processes after session',i:'npx cc-safe-setup --install-example dangling-process-guard',t:['process','server','background']},
 {id:'git-signed-commit-guard',n:'Git Signed Commit Guard',c:'quality',d:'Warn on --no-gpg-sign bypass',i:'npx cc-safe-setup --install-example git-signed-commit-guard',t:['git','gpg','signing']},
+{id:'relative-path-guard',n:'Relative Path Guard',c:'quality',d:'Warn on relative paths in Edit/Write',i:'npx cc-safe-setup --install-example relative-path-guard',t:['path','relative','file']},
 {id:'dotenv-validate',n:'Dotenv Validate',c:'quality',d:'Validate .env syntax after edits',i:'npx cc-safe-setup --install-example dotenv-validate',t:['env','syntax','validate']},
 {id:'readme-update-reminder',n:'README Update Reminder',c:'quality',d:'Remind to update README when APIs change',i:'npx cc-safe-setup --install-example readme-update-reminder',t:['readme','docs','api']},
 {id:'auto-checkpoint',n:'Auto Checkpoint',c:'utility',d:'Auto-commit after edits for rollback',i:'npx cc-safe-setup --install-example auto-checkpoint',t:['checkpoint','rollback','git']},
