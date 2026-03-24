@@ -113,6 +113,7 @@ if (!command || command === '--help' || command === '-h') {
     install <id>         Install a hook
     info <id>            Show hook details
     recommend            Recommend hooks for current project
+    init                 Interactive setup — install recommended hooks
     list                 List all installed hooks with status
     update [id]          Update one or all installed hooks
     uninstall <id>       Remove an installed hook
@@ -368,6 +369,124 @@ else if (command === 'recommend') {
   } else {
     console.log(c.dim + '  ' + notInstalled.length + ' recommended hook(s) not yet installed.' + c.reset);
   }
+  console.log();
+}
+
+else if (command === 'init') {
+  console.log();
+  console.log(c.bold + '  cc-hook-registry init' + c.reset);
+  console.log(c.dim + '  Quick setup — installing essential + project-specific hooks' + c.reset);
+  console.log();
+
+  const cwd = process.cwd();
+  const toInstall = [];
+
+  // Essential hooks (always install)
+  toInstall.push('destructive-guard', 'branch-guard', 'secret-guard');
+
+  // Detect project type
+  if (existsSync(join(cwd, 'package.json'))) {
+    console.log('  ' + c.blue + '⬡' + c.reset + ' Node.js detected');
+    toInstall.push('auto-approve-build');
+    try {
+      const pkg = JSON.parse(readFileSync(join(cwd, 'package.json'), 'utf-8'));
+      if (pkg.dependencies?.prisma || pkg.devDependencies?.prisma) {
+        console.log('  ' + c.blue + '⬡' + c.reset + ' Prisma detected');
+        toInstall.push('block-database-wipe');
+      }
+    } catch {}
+  }
+  if (existsSync(join(cwd, 'requirements.txt')) || existsSync(join(cwd, 'pyproject.toml'))) {
+    console.log('  ' + c.blue + '⬡' + c.reset + ' Python detected');
+    toInstall.push('auto-approve-python');
+  }
+  if (existsSync(join(cwd, 'Dockerfile'))) {
+    console.log('  ' + c.blue + '⬡' + c.reset + ' Docker detected');
+    toInstall.push('auto-approve-docker');
+  }
+  if (existsSync(join(cwd, '.env'))) {
+    console.log('  ' + c.blue + '⬡' + c.reset + ' .env file detected');
+    toInstall.push('env-source-guard');
+  }
+  if (existsSync(join(cwd, 'Gemfile')) || existsSync(join(cwd, 'artisan'))) {
+    console.log('  ' + c.blue + '⬡' + c.reset + ' Rails/Laravel detected');
+    toInstall.push('block-database-wipe');
+  }
+
+  // Always useful
+  toInstall.push('compound-command-approver', 'loop-detector', 'session-handoff');
+
+  // Deduplicate
+  const unique = [...new Set(toInstall)];
+
+  // Check what's already installed
+  const installed = new Set();
+  if (existsSync(HOOKS_DIR)) {
+    const { readdirSync } = await import('fs');
+    for (const f of readdirSync(HOOKS_DIR)) {
+      installed.add(f.replace('.sh', ''));
+    }
+  }
+
+  const toActuallyInstall = unique.filter(id => !installed.has(id));
+
+  console.log();
+  if (toActuallyInstall.length === 0) {
+    console.log(c.green + '  All recommended hooks already installed!' + c.reset);
+    console.log();
+    process.exit(0);
+  }
+
+  console.log(c.bold + '  Installing ' + toActuallyInstall.length + ' hooks:' + c.reset);
+
+  for (const id of toActuallyInstall) {
+    const hook = REGISTRY.find(h => h.id === id);
+    if (!hook) continue;
+
+    // Try direct download
+    const rawUrl = `https://raw.githubusercontent.com/yurukusa/cc-safe-setup/main/examples/${id}.sh`;
+    const hookPath = join(HOOKS_DIR, id + '.sh');
+
+    try {
+      mkdirSync(HOOKS_DIR, { recursive: true });
+      const script = execSync(`curl -sL "${rawUrl}"`, { encoding: 'utf-8', timeout: 5000 });
+
+      if (script.startsWith('#!/bin/bash')) {
+        writeFileSync(hookPath, script);
+        chmodSync(hookPath, 0o755);
+
+        // Register in settings
+        const trigger = script.includes('PreToolUse') ? 'PreToolUse' :
+                       script.includes('PostToolUse') ? 'PostToolUse' :
+                       script.includes('Stop') ? 'Stop' :
+                       script.includes('SessionStart') ? 'SessionStart' : 'PreToolUse';
+        const matcher = script.includes('MATCHER: "Bash"') ? 'Bash' :
+                       script.includes('MATCHER: "Edit|Write"') ? 'Edit|Write' : '';
+
+        let settings = {};
+        if (existsSync(SETTINGS_PATH)) {
+          try { settings = JSON.parse(readFileSync(SETTINGS_PATH, 'utf-8')); } catch {}
+        }
+        if (!settings.hooks) settings.hooks = {};
+        if (!settings.hooks[trigger]) settings.hooks[trigger] = [];
+
+        const existing = settings.hooks[trigger].flatMap(e => (e.hooks || []).map(h => h.command));
+        if (!existing.some(cmd => cmd.includes(id))) {
+          settings.hooks[trigger].push({ matcher, hooks: [{ type: 'command', command: hookPath }] });
+          mkdirSync(dirname(SETTINGS_PATH), { recursive: true });
+          writeFileSync(SETTINGS_PATH, JSON.stringify(settings, null, 2));
+        }
+
+        console.log('  ' + c.green + '✓' + c.reset + ' ' + id);
+      }
+    } catch {
+      console.log('  ' + c.yellow + '✗' + c.reset + ' ' + id + c.dim + ' (download failed)' + c.reset);
+    }
+  }
+
+  console.log();
+  console.log(c.green + '  Done! Restart Claude Code to activate.' + c.reset);
+  console.log(c.dim + '  Run: npx cc-hook-registry list' + c.reset);
   console.log();
 }
 
