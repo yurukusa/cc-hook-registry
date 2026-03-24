@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">155 hooks. Search, browse, install.</p>
+<p class="sub">160 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -214,6 +214,11 @@ const H=[
 {id:'check-dependency-license',n:'Check Dep License',c:'quality',d:'Warn on unknown dependency licenses',i:'npx cc-safe-setup --install-example check-dependency-license',t:['license','dependency']},
 {id:'no-http-without-https',n:'No HTTP',c:'security',d:'Warn on http:// in production code',i:'npx cc-safe-setup --install-example no-http-without-https',t:['http','https','tls']},
 {id:'no-global-state',n:'No Global State',c:'quality',d:'Warn on module-level mutable state',i:'npx cc-safe-setup --install-example no-global-state',t:['global','state','mutable']},
+{id:'no-wildcard-delete',n:'No Wildcard Delete',c:'safety',d:'Block rm with wildcard patterns',i:'npx cc-safe-setup --install-example no-wildcard-delete',t:['rm','wildcard']},
+{id:'no-raw-password-in-url',n:'No Password in URL',c:'security',d:'Block passwords in URLs',i:'npx cc-safe-setup --install-example no-raw-password-in-url',t:['password','url']},
+{id:'env-naming-convention',n:'Env Naming',c:'quality',d:'Warn on lowercase env var names',i:'npx cc-safe-setup --install-example env-naming-convention',t:['env','naming']},
+{id:'readme-exists-check',n:'README Exists',c:'quality',d:'Warn if README missing on commit',i:'npx cc-safe-setup --install-example readme-exists-check',t:['readme','docs']},
+{id:'no-todo-in-merge',n:'No TODO in Merge',c:'quality',d:'Block merging with TODO markers',i:'npx cc-safe-setup --install-example no-todo-in-merge',t:['todo','merge']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
