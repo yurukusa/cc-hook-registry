@@ -26,7 +26,7 @@ test_cmd "browse safety" "node $CLI browse safety" "Safety"
 test_cmd "info destructive-guard" "node $CLI info destructive-guard" "Destructive"
 test_cmd "info nonexistent" "node $CLI info notreal" "not found"
 test_cmd "stats" "node $CLI stats" "Total hooks"
-test_cmd "stats count" "node $CLI stats" "48"
+test_cmd "stats count" "node $CLI stats" "56"
 
 echo ""
 echo "Results: $PASS/$((PASS+FAIL)) passed"
