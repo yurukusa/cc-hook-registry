@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">63 hooks. Search, browse, install.</p>
+<p class="sub">70 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -122,6 +122,13 @@ const H=[
 {id:'context-snapshot',n:'Context Snapshot',c:'utility',d:'Auto-save branch, files, TODOs before context loss',i:'npx cc-safe-setup --install-example context-snapshot',t:['context','compact','snapshot']},
 {id:'lockfile-guard',n:'Lockfile Guard',c:'quality',d:'Warn when lockfiles are modified in commits',i:'npx cc-safe-setup --install-example lockfile-guard',t:['lock','npm','yarn','cargo']},
 {id:'git-lfs-guard',n:'Git LFS Guard',c:'quality',d:'Suggest Git LFS for large binary files',i:'npx cc-safe-setup --install-example git-lfs-guard',t:['lfs','binary','large']},
+{id:'docker-prune-guard',n:'Docker Prune Guard',c:'safety',d:'Warn before docker system prune',i:'npx cc-safe-setup --install-example docker-prune-guard',t:['docker','prune','cleanup']},
+{id:'pip-venv-guard',n:'Pip Venv Guard',c:'safety',d:'Warn on pip install outside venv',i:'npx cc-safe-setup --install-example pip-venv-guard',t:['pip','venv','python']},
+{id:'no-git-amend-push',n:'No Git Amend Push',c:'safety',d:'Warn on amending pushed commits',i:'npx cc-safe-setup --install-example no-git-amend-push',t:['git','amend','push']},
+{id:'git-blame-context',n:'Git Blame Context',c:'quality',d:'Show file ownership before major edits',i:'npx cc-safe-setup --install-example git-blame-context',t:['git','blame','ownership']},
+{id:'import-cycle-warn',n:'Import Cycle Warn',c:'quality',d:'Detect circular import patterns',i:'npx cc-safe-setup --install-example import-cycle-warn',t:['import','circular','dependency']},
+{id:'env-drift-guard',n:'Env Drift Guard',c:'quality',d:'Detect .env vs .env.example mismatch',i:'npx cc-safe-setup --install-example env-drift-guard',t:['env','drift','config']},
+{id:'package-script-guard',n:'Package Script Guard',c:'quality',d:'Warn when package.json scripts change',i:'npx cc-safe-setup --install-example package-script-guard',t:['npm','scripts','package']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
