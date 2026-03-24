@@ -464,6 +464,34 @@ const HOOKS = [
     install: 'npx cc-safe-setup --install-example disk-space-guard',
     test(cmd) { return null; /* Checks df output, not command patterns */ }
   },
+  {
+    id: 'error-memory-guard', name: 'Error Memory Guard', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example error-memory-guard',
+    test(cmd) { return null; /* Tracks failure history, not single commands */ }
+  },
+  {
+    id: 'large-read-guard', name: 'Large Read Guard', cat: 'utility',
+    install: 'npx cc-safe-setup --install-example large-read-guard',
+    test(cmd) {
+      if (/^\s*cat\s+\S+\.(log|sql|csv|json|xml|min\.js|bundle)/i.test(cmd))
+        return { action: 'warn', reason: 'Large file — use head/tail/grep instead' };
+      return null;
+    }
+  },
+  {
+    id: 'strict-allowlist', name: 'Strict Allowlist', cat: 'safety',
+    install: 'npx cc-safe-setup --install-example strict-allowlist',
+    test(cmd) { return null; /* Checks against allowlist file */ }
+  },
+  {
+    id: 'conflict-marker-guard', name: 'Conflict Marker Guard', cat: 'quality',
+    install: 'npx cc-safe-setup --install-example conflict-marker-guard',
+    test(cmd) {
+      if (/\bgit\s+commit\b/i.test(cmd))
+        return { action: 'warn', reason: 'Checks staged files for <<<<<<< markers' };
+      return null;
+    }
+  },
 ];
 
 const EXAMPLES = [
