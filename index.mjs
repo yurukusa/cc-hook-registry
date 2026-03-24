@@ -113,6 +113,7 @@ if (!command || command === '--help' || command === '-h') {
     install <id>         Install a hook
     info <id>            Show hook details
     recommend            Recommend hooks for current project
+    outdated             Check installed hooks for updates
     stats                Registry statistics
 
   Examples:
@@ -364,6 +365,66 @@ else if (command === 'recommend') {
   } else {
     console.log(c.dim + '  ' + notInstalled.length + ' recommended hook(s) not yet installed.' + c.reset);
   }
+  console.log();
+}
+
+else if (command === 'outdated') {
+  console.log();
+  console.log(c.bold + '  Checking installed hooks for updates...' + c.reset);
+  console.log();
+
+  if (!existsSync(HOOKS_DIR)) {
+    console.log(c.dim + '  No hooks installed.' + c.reset);
+    process.exit(0);
+  }
+
+  const { readdirSync } = await import('fs');
+  const installed = readdirSync(HOOKS_DIR).filter(f => f.endsWith('.sh'));
+  let outdated = 0;
+  let upToDate = 0;
+  let unknown = 0;
+
+  for (const file of installed) {
+    const name = file.replace('.sh', '');
+    const hook = REGISTRY.find(h => h.id === name);
+    const localContent = readFileSync(join(HOOKS_DIR, file), 'utf-8');
+    const localLines = localContent.split('\n').length;
+
+    if (!hook) {
+      // Custom hook, not in registry
+      console.log('  ' + c.dim + '?' + c.reset + ' ' + file + c.dim + ' (custom, not in registry)' + c.reset);
+      unknown++;
+      continue;
+    }
+
+    // Check against GitHub for cc-safe-setup hooks
+    if (hook.source === 'cc-safe-setup' && hook.install.includes('--install-example')) {
+      try {
+        const rawUrl = `https://raw.githubusercontent.com/yurukusa/cc-safe-setup/main/examples/${name}.sh`;
+        const remote = execSync(`curl -sL "${rawUrl}" 2>/dev/null`, { encoding: 'utf-8', timeout: 5000 });
+        const remoteLines = remote.split('\n').length;
+
+        if (remote.trim() === localContent.trim()) {
+          console.log('  ' + c.green + '✓' + c.reset + ' ' + file + c.dim + ' (up to date)' + c.reset);
+          upToDate++;
+        } else {
+          const diff = remoteLines - localLines;
+          console.log('  ' + c.yellow + '↑' + c.reset + ' ' + file + c.yellow + ' (update available: ' + (diff > 0 ? '+' : '') + diff + ' lines)' + c.reset);
+          console.log('    ' + c.dim + 'Update: npx cc-hook-registry install ' + name + c.reset);
+          outdated++;
+        }
+      } catch {
+        console.log('  ' + c.dim + '?' + c.reset + ' ' + file + c.dim + ' (could not check)' + c.reset);
+        unknown++;
+      }
+    } else {
+      console.log('  ' + c.dim + '—' + c.reset + ' ' + file + c.dim + ' (external: ' + hook.source + ')' + c.reset);
+      unknown++;
+    }
+  }
+
+  console.log();
+  console.log('  ' + c.green + upToDate + ' up to date' + c.reset + '  ' + c.yellow + outdated + ' outdated' + c.reset + '  ' + c.dim + unknown + ' unchecked' + c.reset);
   console.log();
 }
 
