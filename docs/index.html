@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">54 hooks. Search, browse, install.</p>
+<p class="sub">60 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -112,6 +112,12 @@ const H=[
 {id:'compact-reminder',n:'Compact Reminder',c:'utility',d:'Suggest /compact after N tool calls',i:'npx cc-safe-setup --install-example compact-reminder',t:['compact','context','session']},
 {id:'revert-helper',n:'Revert Helper',c:'utility',d:'Show undo command on session end',i:'npx cc-safe-setup --install-example revert-helper',t:['revert','undo','git']},
 {id:'auto-stash-before-pull',n:'Auto Stash Before Pull',c:'safety',d:'Warn before pull/merge with dirty tree',i:'npx cc-safe-setup --install-example auto-stash-before-pull',t:['git','stash','pull']},
+{id:'hardcoded-secret-detector',n:'Hardcoded Secret Detector',c:'safety',d:'Detect AWS keys, API keys, passwords, JWT in code',i:'npx cc-safe-setup --install-example hardcoded-secret-detector',t:['secret','key','password','jwt']},
+{id:'no-console-log',n:'No Console.log',c:'quality',d:'Warn on console.log in production code',i:'npx cc-safe-setup --install-example no-console-log',t:['console','log','debug']},
+{id:'no-eval',n:'No Eval',c:'safety',d:'Warn on eval() usage',i:'npx cc-safe-setup --install-example no-eval',t:['eval','security']},
+{id:'file-size-limit',n:'File Size Limit',c:'safety',d:'Block creating files over 1MB',i:'npx cc-safe-setup --install-example file-size-limit',t:['size','large','write']},
+{id:'branch-naming',n:'Branch Naming',c:'quality',d:'Enforce feat/fix/chore branch prefixes',i:'npx cc-safe-setup --install-example branch-naming-convention',t:['branch','naming','convention']},
+{id:'no-todo-ship',n:'No TODO Ship',c:'quality',d:'Warn on TODO/FIXME in commits',i:'npx cc-safe-setup --install-example no-todo-ship',t:['todo','fixme','commit']},
 {id:'strict-allowlist',n:'Strict Allowlist',c:'safety',d:'Only allow explicitly permitted commands (allowlist mode)',i:'npx cc-safe-setup --install-example strict-allowlist',t:['allowlist','whitelist','strict']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
