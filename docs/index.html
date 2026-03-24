@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">59 hooks from 7 projects. Search, browse, install.</p>
+<p class="sub">36 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -84,6 +84,16 @@ const H=[
 {id:'auto-approve-build',n:'Auto-Approve Build',c:'approve',d:'npm/cargo/go build, test, lint',i:'npx cc-safe-setup --install-example auto-approve-build',t:['build','test','npm']},
 {id:'auto-approve-python',n:'Auto-Approve Python',c:'approve',d:'pytest, mypy, ruff, black',i:'npx cc-safe-setup --install-example auto-approve-python',t:['python','pytest','lint']},
 {id:'auto-approve-docker',n:'Auto-Approve Docker',c:'approve',d:'docker build, compose, ps, logs',i:'npx cc-safe-setup --install-example auto-approve-docker',t:['docker','compose']},
+{id:'protect-claudemd',n:'Protect CLAUDE.md',c:'safety',d:'Block edits to CLAUDE.md and settings files',i:'npx cc-safe-setup --install-example protect-claudemd',t:['claudemd','config']},
+{id:'no-sudo-guard',n:'No Sudo',c:'safety',d:'Block all sudo commands',i:'npx cc-safe-setup --install-example no-sudo-guard',t:['sudo','root']},
+{id:'no-install-global',n:'No Global Install',c:'safety',d:'Block npm -g and system pip',i:'npx cc-safe-setup --install-example no-install-global',t:['npm','pip','global']},
+{id:'no-deploy-friday',n:'No Deploy Friday',c:'safety',d:'Block deploys on Fridays',i:'npx cc-safe-setup --install-example no-deploy-friday',t:['deploy','friday']},
+{id:'work-hours-guard',n:'Work Hours Guard',c:'safety',d:'Restrict risky ops outside business hours',i:'npx cc-safe-setup --install-example work-hours-guard',t:['hours','time','night']},
+{id:'auto-approve-go',n:'Auto-Approve Go',c:'approve',d:'go build/test/vet/fmt',i:'npx cc-safe-setup --install-example auto-approve-go',t:['go','golang']},
+{id:'auto-approve-cargo',n:'Auto-Approve Cargo',c:'approve',d:'cargo build/test/clippy',i:'npx cc-safe-setup --install-example auto-approve-cargo',t:['rust','cargo']},
+{id:'auto-approve-make',n:'Auto-Approve Make',c:'approve',d:'make build/test/lint',i:'npx cc-safe-setup --install-example auto-approve-make',t:['make','makefile']},
+{id:'auto-approve-gradle',n:'Auto-Approve Gradle',c:'approve',d:'gradle/gradlew build/test',i:'npx cc-safe-setup --install-example auto-approve-gradle',t:['java','gradle']},
+{id:'auto-approve-maven',n:'Auto-Approve Maven',c:'approve',d:'mvn compile/test/verify',i:'npx cc-safe-setup --install-example auto-approve-maven',t:['java','maven']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
