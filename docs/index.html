@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">97 hooks. Search, browse, install.</p>
+<p class="sub">100 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -156,6 +156,9 @@ const H=[
 {id:'git-signed-commit-guard',n:'Git Signed Commit Guard',c:'quality',d:'Warn on --no-gpg-sign bypass',i:'npx cc-safe-setup --install-example git-signed-commit-guard',t:['git','gpg','signing']},
 {id:'dotenv-validate',n:'Dotenv Validate',c:'quality',d:'Validate .env syntax after edits',i:'npx cc-safe-setup --install-example dotenv-validate',t:['env','syntax','validate']},
 {id:'readme-update-reminder',n:'README Update Reminder',c:'quality',d:'Remind to update README when APIs change',i:'npx cc-safe-setup --install-example readme-update-reminder',t:['readme','docs','api']},
+{id:'auto-checkpoint',n:'Auto Checkpoint',c:'utility',d:'Auto-commit after edits for rollback',i:'npx cc-safe-setup --install-example auto-checkpoint',t:['checkpoint','rollback','git']},
+{id:'binary-file-guard',n:'Binary File Guard',c:'quality',d:'Warn when Write targets binary file types',i:'npx cc-safe-setup --install-example binary-file-guard',t:['binary','write','image']},
+{id:'changelog-reminder',n:'Changelog Reminder',c:'quality',d:'Remind to update CHANGELOG on version bump',i:'npx cc-safe-setup --install-example changelog-reminder',t:['changelog','version','docs']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
