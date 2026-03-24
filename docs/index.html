@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">140 hooks. Search, browse, install.</p>
+<p class="sub">150 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -199,6 +199,16 @@ const H=[
 {id:'migration-safety',n:'Migration Safety',c:'safety',d:'Require backup before DB migrations',i:'npx cc-safe-setup --install-example migration-safety',t:['migrate','backup','database']},
 {id:'no-package-downgrade',n:'No Package Downgrade',c:'safety',d:'Block npm/pip downgrade commands',i:'npx cc-safe-setup --install-example no-package-downgrade',t:['npm','downgrade','version']},
 {id:'timezone-guard',n:'Timezone Guard',c:'quality',d:'Warn on non-UTC timezone in commands',i:'npx cc-safe-setup --install-example timezone-guard',t:['timezone','utc','time']},
+{id:'no-var-keyword',n:'No var Keyword',c:'quality',d:'Warn on var in JS/TS',i:'npx cc-safe-setup --install-example no-var-keyword',t:['var','const','let']},
+{id:'no-any-type',n:'No any Type',c:'quality',d:'Warn on TypeScript any',i:'npx cc-safe-setup --install-example no-any-type',t:['typescript','any','type']},
+{id:'no-sync-fs',n:'No Sync FS',c:'quality',d:'Warn on synchronous fs ops',i:'npx cc-safe-setup --install-example no-sync-fs',t:['fs','sync','async']},
+{id:'no-deep-nesting',n:'No Deep Nesting',c:'quality',d:'Warn on 4+ nesting levels',i:'npx cc-safe-setup --install-example no-deep-nesting',t:['nesting','complexity']},
+{id:'no-disabled-test',n:'No Disabled Test',c:'quality',d:'Warn on .skip()/.only() in tests',i:'npx cc-safe-setup --install-example no-disabled-test',t:['test','skip','focused']},
+{id:'no-commented-code',n:'No Commented Code',c:'quality',d:'Warn on large commented code blocks',i:'npx cc-safe-setup --install-example no-commented-code',t:['comment','dead','code']},
+{id:'no-empty-function',n:'No Empty Function',c:'quality',d:'Warn on empty function bodies',i:'npx cc-safe-setup --install-example no-empty-function',t:['empty','function','body']},
+{id:'check-error-handling',n:'Check Error Handling',c:'quality',d:'Warn on Promise without .catch()',i:'npx cc-safe-setup --install-example check-error-handling',t:['promise','catch','error']},
+{id:'no-string-concat-sql',n:'No SQL String Concat',c:'security',d:'Warn on string concat in SQL',i:'npx cc-safe-setup --install-example no-string-concat-sql',t:['sql','concat','injection']},
+{id:'prefer-const',n:'Prefer const',c:'quality',d:'Warn on let when const possible',i:'npx cc-safe-setup --install-example prefer-const',t:['const','let','immutable']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
