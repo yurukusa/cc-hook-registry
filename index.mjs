@@ -64,6 +64,19 @@ const REGISTRY = [
   { id: 'safety-net', name: 'Safety Net (Full Suite)', category: 'safety', source: 'kenryu42/claude-code-safety-net', trigger: 'PreToolUse', desc: 'TypeScript safety hooks with configurable severity levels', tags: ['typescript', 'safety', 'configurable'], install: 'npx @anthropic-ai/claude-code-safety-net', stars: 1185 },
   { id: 'hooks-mastery', name: 'Hooks Mastery (Python)', category: 'framework', source: 'disler/claude-code-hooks-mastery', trigger: 'All', desc: 'Python hooks covering all hook events + LLM integration', tags: ['python', 'mastery', 'all-events', 'llm'], install: 'git clone + copy', stars: 3386 },
   { id: 'prompt-injection-defender', name: 'Prompt Injection Defender', category: 'security', source: 'lasso-security/claude-hooks', trigger: 'PreToolUse', desc: 'YAML-based prompt injection pattern matching', tags: ['prompt-injection', 'security', 'yaml'], install: 'git clone + install.sh', stars: 161 },
+
+  // karanb192/claude-code-hooks
+  { id: 'karanb192-block-dangerous', name: 'Block Dangerous (JS)', category: 'safety', source: 'karanb192/claude-code-hooks', trigger: 'PreToolUse', desc: 'JavaScript safety hooks with configurable safety levels (critical/high/strict)', tags: ['javascript', 'safety', 'configurable', 'levels'], install: 'copy hook-scripts/', stars: 298 },
+  { id: 'karanb192-protect-secrets', name: 'Protect Secrets (JS)', category: 'safety', source: 'karanb192/claude-code-hooks', trigger: 'PreToolUse', desc: 'JavaScript hook blocking Read/Edit/Write of sensitive files', tags: ['javascript', 'secrets', 'files', 'read'], install: 'copy hook-scripts/', stars: 298 },
+
+  // johnlindquist/claude-hooks
+  { id: 'johnlindquist-hooks', name: 'Claude Hooks (Bun/TS)', category: 'framework', source: 'johnlindquist/claude-hooks', trigger: 'All', desc: 'TypeScript hooks with Bun runtime, notification and session tracking', tags: ['typescript', 'bun', 'notification', 'session'], install: 'bun install', stars: 329 },
+
+  // pascalporedda/awesome-claude-code
+  { id: 'sound-notification', name: 'Sound Notification', category: 'ux', source: 'pascalporedda/awesome-claude-code', trigger: 'Notification', desc: 'Play audio alerts when Claude needs attention or completes a task', tags: ['sound', 'audio', 'notification', 'alert'], install: 'git clone + copy', stars: 73 },
+
+  // cc-safe-setup additional examples
+  { id: 'env-source-guard', name: 'Env Source Guard', category: 'safety', source: 'cc-safe-setup', trigger: 'PreToolUse', desc: 'Block sourcing .env files into shell environment', tags: ['env', 'source', 'bash', 'environment'], install: 'npx cc-safe-setup --install-example env-source-guard', issue: '#401' },
 ];
 
 const args = process.argv.slice(2);
