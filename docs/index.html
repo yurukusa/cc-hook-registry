@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">160 hooks. Search, browse, install.</p>
+<p class="sub">165 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -219,6 +219,11 @@ const H=[
 {id:'env-naming-convention',n:'Env Naming',c:'quality',d:'Warn on lowercase env var names',i:'npx cc-safe-setup --install-example env-naming-convention',t:['env','naming']},
 {id:'readme-exists-check',n:'README Exists',c:'quality',d:'Warn if README missing on commit',i:'npx cc-safe-setup --install-example readme-exists-check',t:['readme','docs']},
 {id:'no-todo-in-merge',n:'No TODO in Merge',c:'quality',d:'Block merging with TODO markers',i:'npx cc-safe-setup --install-example no-todo-in-merge',t:['todo','merge']},
+{id:'no-debug-in-commit',n:'No Debug in Commit',c:'quality',d:'Block debug statements in staged code',i:'npx cc-safe-setup --install-example no-debug-in-commit',t:['debug','commit','staged']},
+{id:'check-dockerfile',n:'Dockerfile Check',c:'quality',d:'Warn on Dockerfile antipatterns',i:'npx cc-safe-setup --install-example check-dockerfile-best-practice',t:['docker','dockerfile','lint']},
+{id:'no-secrets-in-logs',n:'No Secrets in Logs',c:'security',d:'Detect secrets in tool output',i:'npx cc-safe-setup --install-example no-secrets-in-logs',t:['secret','log','output']},
+{id:'no-anonymous-export',n:'No Anonymous Export',c:'quality',d:'Warn on anonymous default exports',i:'npx cc-safe-setup --install-example no-anonymous-default-export',t:['export','anonymous','naming']},
+{id:'check-gitattributes',n:'Check Gitattributes',c:'quality',d:'Warn if .gitattributes missing for binaries',i:'npx cc-safe-setup --install-example check-gitattributes',t:['gitattributes','lfs','binary']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
