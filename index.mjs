@@ -113,6 +113,7 @@ if (!command || command === '--help' || command === '-h') {
     install <id>         Install a hook
     info <id>            Show hook details
     recommend            Recommend hooks for current project
+    list                 List all installed hooks with status
     update [id]          Update one or all installed hooks
     uninstall <id>       Remove an installed hook
     outdated             Check installed hooks for updates
@@ -367,6 +368,57 @@ else if (command === 'recommend') {
   } else {
     console.log(c.dim + '  ' + notInstalled.length + ' recommended hook(s) not yet installed.' + c.reset);
   }
+  console.log();
+}
+
+else if (command === 'list') {
+  console.log();
+  console.log(c.bold + '  Installed Hooks' + c.reset);
+  console.log();
+
+  if (!existsSync(HOOKS_DIR)) {
+    console.log(c.dim + '  No hooks directory.' + c.reset);
+    process.exit(0);
+  }
+
+  const { readdirSync, statSync } = await import('fs');
+  const files = readdirSync(HOOKS_DIR).filter(f => f.endsWith('.sh')).sort();
+
+  // Count by trigger
+  let byTrigger = {};
+  if (existsSync(SETTINGS_PATH)) {
+    try {
+      const s = JSON.parse(readFileSync(SETTINGS_PATH, 'utf-8'));
+      for (const [trigger, entries] of Object.entries(s.hooks || {})) {
+        for (const e of entries) {
+          for (const h of (e.hooks || [])) {
+            const name = (h.command || '').split('/').pop();
+            if (name) byTrigger[name] = trigger;
+          }
+        }
+      }
+    } catch {}
+  }
+
+  for (const file of files) {
+    const path = join(HOOKS_DIR, file);
+    const name = file.replace('.sh', '');
+    const size = statSync(path).size;
+    const mtime = statSync(path).mtime;
+    const age = Math.floor((Date.now() - mtime.getTime()) / 86400000);
+    const inRegistry = REGISTRY.some(h => h.id === name);
+    const trigger = byTrigger[file] || '?';
+
+    const icon = inRegistry ? c.green + '●' + c.reset : c.dim + '○' + c.reset;
+    const ageStr = age === 0 ? 'today' : age + 'd ago';
+    const triggerStr = c.dim + trigger.padEnd(16) + c.reset;
+
+    console.log('  ' + icon + ' ' + file.padEnd(30) + triggerStr + (size/1024).toFixed(1) + 'KB  ' + c.dim + ageStr + c.reset);
+  }
+
+  console.log();
+  const inReg = files.filter(f => REGISTRY.some(h => h.id === f.replace('.sh', ''))).length;
+  console.log('  ' + files.length + ' hooks installed (' + c.green + inReg + ' in registry' + c.reset + ', ' + c.dim + (files.length - inReg) + ' custom' + c.reset + ')');
   console.log();
 }
 

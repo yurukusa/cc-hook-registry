@@ -1,6 +1,6 @@
 {
   "name": "cc-hook-registry",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Search, browse, and install Claude Code hooks from the community. GitHub-based registry, no server needed.",
   "main": "index.mjs",
   "bin": {
