@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">185 hooks. Search, browse, install.</p>
+<p class="sub">200 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -244,6 +244,21 @@ const H=[
 {id:'no-todo-without-issue',n:'No TODO Without Issue',c:'quality',d:'Warn on TODO without issue ref',i:'npx cc-safe-setup --install-example no-todo-without-issue',t:['todo','issue']},
 {id:'check-semantic-version',n:'Semver Check',c:'quality',d:'Warn on non-semver versions',i:'npx cc-safe-setup --install-example check-semantic-versioning',t:['semver','version']},
 {id:'no-mixed-line-endings',n:'No Mixed EOL',c:'quality',d:'Detect mixed CRLF/LF',i:'npx cc-safe-setup --install-example no-mixed-line-endings',t:['eol','crlf','lf']},
+{id:'no-helmet-missing',n:'No Helmet Missing',c:'security',d:'Warn on Express without helmet()',i:'npx cc-safe-setup --install-example no-helmet-missing',t:['express','helmet']},
+{id:'no-jwt-in-url',n:'No JWT in URL',c:'security',d:'Warn on JWT in query params',i:'npx cc-safe-setup --install-example no-jwt-in-url',t:['jwt','url','token']},
+{id:'no-md5-sha1',n:'No Weak Hash',c:'security',d:'Warn on MD5/SHA1 usage',i:'npx cc-safe-setup --install-example no-md5-sha1',t:['md5','sha1','hash']},
+{id:'no-innerhtml',n:'No innerHTML',c:'security',d:'Warn on innerHTML XSS risk',i:'npx cc-safe-setup --install-example no-innerhtml',t:['innerHTML','xss']},
+{id:'no-exec-user-input',n:'No Exec User Input',c:'security',d:'Block exec with user input',i:'npx cc-safe-setup --install-example no-exec-user-input',t:['exec','injection','command']},
+{id:'check-cookie-flags',n:'Cookie Flags',c:'security',d:'Warn on cookies without secure flag',i:'npx cc-safe-setup --install-example check-cookie-flags',t:['cookie','secure','http']},
+{id:'no-default-credentials',n:'No Default Creds',c:'security',d:'Detect default passwords',i:'npx cc-safe-setup --install-example no-default-credentials',t:['password','default','admin']},
+{id:'no-document-write',n:'No document.write',c:'security',d:'Warn on document.write XSS',i:'npx cc-safe-setup --install-example no-document-write',t:['document','write','xss']},
+{id:'check-error-stack',n:'Error Stack Check',c:'security',d:'Warn on exposing error stacks',i:'npx cc-safe-setup --install-example check-error-stack',t:['error','stack','leak']},
+{id:'check-tls-version',n:'TLS Version Check',c:'security',d:'Warn on TLS < 1.2',i:'npx cc-safe-setup --install-example check-tls-version',t:['tls','ssl','version']},
+{id:'no-wildcard-cors-2',n:'No Wildcard CORS',c:'security',d:'Block CORS with * origin',i:'npx cc-safe-setup --install-example no-wildcard-cors',t:['cors','wildcard','origin']},
+{id:'check-cors-config',n:'CORS Config Check',c:'security',d:'Warn on permissive CORS',i:'npx cc-safe-setup --install-example check-cors-config',t:['cors','config','permissive']},
+{id:'check-csp-headers',n:'CSP Headers',c:'security',d:'Warn on missing CSP',i:'npx cc-safe-setup --install-example check-csp-headers',t:['csp','headers','security']},
+{id:'check-https-redirect',n:'HTTPS Redirect',c:'security',d:'Warn on missing HTTPS redirect',i:'npx cc-safe-setup --install-example check-https-redirect',t:['https','redirect','tls']},
+{id:'no-string-concat-sql-2',n:'No SQL Concat',c:'security',d:'Warn on SQL string concatenation',i:'npx cc-safe-setup --install-example no-string-concat-sql',t:['sql','concat','parameterized']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
