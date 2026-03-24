@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">200 hooks. Search, browse, install.</p>
+<p class="sub">210 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -259,6 +259,16 @@ const H=[
 {id:'check-csp-headers',n:'CSP Headers',c:'security',d:'Warn on missing CSP',i:'npx cc-safe-setup --install-example check-csp-headers',t:['csp','headers','security']},
 {id:'check-https-redirect',n:'HTTPS Redirect',c:'security',d:'Warn on missing HTTPS redirect',i:'npx cc-safe-setup --install-example check-https-redirect',t:['https','redirect','tls']},
 {id:'no-string-concat-sql-2',n:'No SQL Concat',c:'security',d:'Warn on SQL string concatenation',i:'npx cc-safe-setup --install-example no-string-concat-sql',t:['sql','concat','parameterized']},
+{id:'check-key-prop',n:'Check Key Prop',c:'quality',d:'Warn on missing key in map',i:'npx cc-safe-setup --install-example check-key-prop',t:['react','key']},
+{id:'no-index-as-key',n:'No Index Key',c:'quality',d:'Warn on index as key',i:'npx cc-safe-setup --install-example no-index-as-key',t:['react','index']},
+{id:'check-cleanup-effect',n:'Cleanup Effect',c:'quality',d:'useEffect without cleanup',i:'npx cc-safe-setup --install-example check-cleanup-effect',t:['react','cleanup']},
+{id:'no-memory-leak-interval',n:'No Interval Leak',c:'quality',d:'setInterval without clear',i:'npx cc-safe-setup --install-example no-memory-leak-interval',t:['interval','leak']},
+{id:'check-abort-controller',n:'AbortController',c:'quality',d:'fetch without abort',i:'npx cc-safe-setup --install-example check-abort-controller',t:['fetch','abort']},
+{id:'check-debounce',n:'Check Debounce',c:'quality',d:'Rapid handlers without debounce',i:'npx cc-safe-setup --install-example check-debounce',t:['debounce','event']},
+{id:'check-type-coercion',n:'Type Coercion',c:'quality',d:'Warn on == instead of ===',i:'npx cc-safe-setup --install-example check-type-coercion',t:['equality','strict']},
+{id:'no-unreachable-code',n:'Unreachable Code',c:'quality',d:'Code after return',i:'npx cc-safe-setup --install-example no-unreachable-code',t:['unreachable','dead']},
+{id:'no-throw-string',n:'No Throw String',c:'quality',d:'Warn on throwing strings',i:'npx cc-safe-setup --install-example no-throw-string',t:['throw','error']},
+{id:'check-error-class',n:'Error Class',c:'quality',d:'Warn on non-Error throws',i:'npx cc-safe-setup --install-example check-error-class',t:['error','throw']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
