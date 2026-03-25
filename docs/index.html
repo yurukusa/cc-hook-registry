@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">220 hooks. Search, browse, install.</p>
+<p class="sub">224 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -279,6 +279,10 @@ const H=[
 {id:'no-deprecated-api',n:'No Deprecated API',c:'quality',d:'Warn on deprecated Node.js APIs',i:'npx cc-safe-setup --install-example no-deprecated-api',t:['deprecated','nodejs']},
 {id:'check-error-page',n:'Error Page Check',c:'quality',d:'Warn on missing error pages',i:'npx cc-safe-setup --install-example check-error-page',t:['error','404','route']},
 {id:'no-window-location',n:'No Window Location',c:'security',d:'Warn on window.location assignment',i:'npx cc-safe-setup --install-example no-window-location',t:['redirect','window']},
+{id:'skill-gate',n:'Skill Gate',c:'safety',d:'Block built-in skills that edit files without showing changes',i:'npx cc-safe-setup --install-example skill-gate',t:['skill','permission','opaque']},
+{id:'auto-approve-test',n:'Auto-Approve Test',c:'approve',d:'Auto-approve test runner commands across all languages',i:'npx cc-safe-setup --install-example auto-approve-test',t:['test','approve','jest','pytest']},
+{id:'no-commit-fixup',n:'No Commit Fixup',c:'git',d:'Warn when pushing branches with fixup/WIP commits',i:'npx cc-safe-setup --install-example no-commit-fixup',t:['git','fixup','squash','WIP']},
+{id:'no-push-without-ci',n:'No Push Without CI',c:'git',d:'Warn when pushing without recent test results',i:'npx cc-safe-setup --install-example no-push-without-ci',t:['git','test','CI','push']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
