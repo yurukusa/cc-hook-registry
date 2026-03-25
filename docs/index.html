@@ -34,7 +34,7 @@ a{color:#58a6ff;text-decoration:none}
 <body>
 <div class="c">
 <h1>Claude Code Hook Registry</h1>
-<p class="sub">227 hooks. Search, browse, install.</p>
+<p class="sub">230 hooks. Search, browse, install.</p>
 
 <input id="q" placeholder="Search hooks... (database, git, deploy, secret, docker)" oninput="render()">
 
@@ -286,6 +286,9 @@ const H=[
 {id:'no-large-commit',n:'No Large Commit',c:'git',d:'Warn when committing too many files at once',i:'npx cc-safe-setup --install-example no-large-commit',t:['git','commit','review']},
 {id:'no-sleep-in-hooks',n:'No Sleep in Hooks',c:'quality',d:'Detect sleep commands in hook scripts that cause hangs',i:'npx cc-safe-setup --install-example no-sleep-in-hooks',t:['hooks','debug','performance']},
 {id:'check-git-hooks-compat',n:'Git Hooks Compatibility',c:'utility',d:'Verify CC hooks don\'t conflict with git hooks or Husky',i:'npx cc-safe-setup --install-example check-git-hooks-compat',t:['git','husky','compatibility']},
+{id:'session-state-saver',n:'Session State Saver',c:'monitoring',d:'Auto-save session state every N tool calls to survive compaction',i:'npx cc-safe-setup --install-example session-state-saver',t:['compaction','state','recovery','context']},
+{id:'auto-compact-prep',n:'Auto Compact Prep',c:'monitoring',d:'Create restoration checkpoint before context compaction',i:'npx cc-safe-setup --install-example auto-compact-prep',t:['compaction','checkpoint','recovery']},
+{id:'subagent-budget-guard',n:'Subagent Budget Guard',c:'safety',d:'Limit concurrent subagents to prevent context overflow',i:'npx cc-safe-setup --install-example subagent-budget-guard',t:['subagent','context','overflow','limit']},
 {id:'safety-net',n:'Safety Net (TS)',c:'safety',d:'TypeScript hooks with configurable severity',i:'npx @anthropic-ai/claude-code-safety-net',t:['typescript','configurable'],s:1185},
 {id:'hooks-mastery',n:'Hooks Mastery (Python)',c:'utility',d:'Python hooks for all events + LLM',i:'git clone',t:['python','framework'],s:3386},
 ];
